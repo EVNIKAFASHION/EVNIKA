@@ -1,0 +1,2439 @@
+<!doctype html>
+<html lang="en" class="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>EVNIKA — Premium Apparel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              serif: ["Cormorant Garamond", "serif"],
+              sans: ["DM Sans", "sans-serif"],
+            },
+            colors: {
+              cream: "#F5F0E8",
+              charcoal: "#1A1A1A",
+              sand: "#C9A96E",
+              muted: "#8B8475",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      :root {
+        --accent: #c9a96e;
+        --cream: #f5f0e8;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--cream);
+        color: var(--dark);
+      }
+      .dark body {
+        background: #111;
+        color: #f0ede6;
+      }
+
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--cream);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--accent);
+        border-radius: 3px;
+      }
+      .dark ::-webkit-scrollbar-track {
+        background: #1a1a1a;
+      }
+
+      .font-serif {
+        font-family: "Cormorant Garamond", serif;
+      }
+
+      /* Header */
+      #site-header {
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        background: rgba(245, 240, 232, 0.88);
+        border-bottom: 1px solid rgba(201, 169, 110, 0.2);
+        transition: all 0.3s ease;
+      }
+      .dark #site-header {
+        background: rgba(17, 17, 17, 0.88);
+        border-bottom: 1px solid rgba(201, 169, 110, 0.15);
+      }
+      #site-header.scrolled {
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+      }
+
+      .nav-link {
+        position: relative;
+        letter-spacing: 0.08em;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        font-weight: 500;
+        color: #5a5248;
+        transition: color 0.2s;
+      }
+      .dark .nav-link {
+        color: #b0a898;
+      }
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--accent);
+        transition: width 0.3s ease;
+      }
+      .nav-link:hover::after {
+        width: 100%;
+      }
+      .nav-link:hover {
+        color: var(--dark);
+      }
+      .dark .nav-link:hover {
+        color: #f0ede6;
+      }
+
+      /* Hero */
+      .hero-section {
+        min-height: 92vh;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+      }
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        background-image: url("");
+        background-size: cover;
+        background-position: center 20%;
+        transform: scale(1.04);
+        transition: transform 8s ease;
+      }
+      .hero-bg.loaded {
+        transform: scale(1);
+      }
+      .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          105deg,
+          rgba(26, 26, 26, 0.72) 0%,
+          rgba(26, 26, 26, 0.3) 60%,
+          transparent 100%
+        );
+      }
+      .hero-content {
+        position: relative;
+        z-index: 10;
+      }
+
+      .hero-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(2.8rem, 8vw, 6.5rem);
+        font-weight: 300;
+        line-height: 1.05;
+        letter-spacing: -0.01em;
+        color: #fff;
+      }
+      .hero-title em {
+        font-style: italic;
+        color: var(--accent);
+      }
+
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 36px;
+        background: var(--accent);
+        color: #fff;
+        font-size: 0.75rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .btn-primary::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.12);
+        transition: left 0.3s ease;
+      }
+      .btn-primary:hover::before {
+        left: 0;
+      }
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 24px rgba(201, 169, 110, 0.35);
+      }
+
+      .btn-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 28px;
+        background: transparent;
+        color: var(--dark);
+        font-size: 0.75rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-weight: 500;
+        border: 1px solid rgba(26, 26, 26, 0.3);
+        cursor: pointer;
+        transition: all 0.25s ease;
+      }
+      .dark .btn-outline {
+        color: #f0ede6;
+        border-color: rgba(240, 237, 230, 0.3);
+      }
+      .btn-outline:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      /* Product cards */
+      .product-card {
+        position: relative;
+        background: #fff;
+        overflow: hidden;
+        cursor: pointer;
+        transition: box-shadow 0.3s ease;
+      }
+      .dark .product-card {
+        background: #1e1e1e;
+      }
+      .product-card:hover {
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+      }
+      .product-card:hover .card-img {
+        transform: scale(1.05);
+      }
+      .card-img-wrap {
+        overflow: hidden;
+        aspect-ratio: 3/4;
+        background: #f0ece4;
+      }
+      .dark .card-img-wrap {
+        background: #2a2a2a;
+      }
+      .card-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+      }
+      .card-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: var(--dark);
+        color: #fff;
+        font-size: 0.65rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 4px 10px;
+      }
+      .dark .card-badge {
+        background: var(--accent);
+      }
+      .card-heart {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .dark .card-heart {
+        background: rgba(30, 30, 30, 0.9);
+      }
+      .card-heart:hover {
+        transform: scale(1.1);
+        background: #fff;
+      }
+      .card-heart svg {
+        width: 16px;
+        height: 16px;
+        transition: all 0.2s;
+      }
+      .card-heart.active svg {
+        fill: #e05f7c;
+        stroke: #e05f7c;
+      }
+      .card-body {
+        padding: 16px 16px 20px;
+      }
+      .card-brand {
+        font-size: 0.65rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      .card-name {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.05rem;
+        font-weight: 500;
+        color: var(--dark);
+        margin-bottom: 8px;
+        line-height: 1.25;
+      }
+      .dark .card-name {
+        color: #f0ede6;
+      }
+      .card-price {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+      }
+      .card-price-sale {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--dark);
+      }
+      .dark .card-price-sale {
+        color: #fffafa;
+      }
+      .card-price-orig {
+        font-size: 0.8rem;
+        color: #aaa;
+        text-decoration: line-through;
+      }
+      .card-price-off {
+        font-size: 0.65rem;
+        color: #5a9e6f;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+      }
+      .card-add {
+        width: 100%;
+        margin-top: 12px;
+        padding: 9px 0;
+        background: var(--dark);
+        color: #fff;
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .dark .card-add {
+        background: var(--accent);
+      }
+      .card-add:hover {
+        background: var(--accent);
+      }
+
+      /* Section headings */
+      .section-label {
+        font-size: 0.7rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: var(--accent);
+        margin-bottom: 10px;
+      }
+      .section-title {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 400;
+        color: var(--dark);
+      }
+      .dark .section-title {
+        color: #f0ede6;
+      }
+
+      /* Toast */
+      #toast-root {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 99999;
+        pointer-events: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .toast-item {
+        pointer-events: auto;
+        background: var(--dark);
+        color: #f0ede6;
+        padding: 12px 18px;
+        font-size: 0.82rem;
+        letter-spacing: 0.02em;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+        border-left: 3px solid var(--accent);
+        animation: toastIn 0.3s ease forwards;
+      }
+      .dark .toast-item {
+        background: #2a2a2a;
+      }
+      .toast-out {
+        animation: toastOut 0.3s ease forwards;
+      }
+      @keyframes toastIn {
+        from {
+          opacity: 0;
+          transform: translateX(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      @keyframes toastOut {
+        from {
+          opacity: 1;
+          transform: translateX(0);
+        }
+        to {
+          opacity: 0;
+          transform: translateX(30px);
+        }
+      }
+
+      /* Cart / Wishlist Panel */
+      .side-panel {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+        max-width: 420px;
+        background: var(--cream);
+        z-index: 9000;
+        transform: translateX(100%);
+        transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+      }
+      .dark .side-panel {
+        background: #161616;
+      }
+      .side-panel.open {
+        transform: translateX(0);
+      }
+      .panel-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 8999;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+      }
+      .panel-overlay.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .panel-header {
+        padding: 24px 24px 20px;
+        border-bottom: 1px solid rgba(201, 169, 110, 0.2);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .panel-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.4rem;
+        font-weight: 400;
+        color: var(--dark);
+      }
+      .dark .panel-title {
+        color: #f0ede6;
+      }
+      .panel-close-btn {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #8b8475;
+        transition: color 0.2s;
+      }
+      .dark .panel-close-btn {
+        color: #7a7268;
+      }
+      .panel-close-btn:hover {
+        color: var(--dark);
+      }
+      .dark .panel-close-btn:hover {
+        color: #f0ede6;
+      }
+      .panel-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px 24px;
+      }
+      .panel-footer {
+        padding: 20px 24px;
+        border-top: 1px solid rgba(201, 169, 110, 0.2);
+      }
+      .cart-item {
+        display: flex;
+        gap: 14px;
+        padding: 16px 0;
+        border-bottom: 1px solid rgba(201, 169, 110, 0.15);
+      }
+      .cart-item-img {
+        width: 70px;
+        height: 90px;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+      .cart-item-info {
+        flex: 1;
+      }
+      .cart-item-brand {
+        font-size: 0.62rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      .cart-item-name {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1rem;
+        color: var(--dark);
+        margin: 2px 0 6px;
+      }
+      .dark .cart-item-name {
+        color: #f0ede6;
+      }
+      .cart-item-qty {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .qty-btn {
+        width: 26px;
+        height: 26px;
+        border: 1px solid rgba(201, 169, 110, 0.4);
+        background: transparent;
+        cursor: pointer;
+        font-size: 1rem;
+        color: var(--dark);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+      }
+      .dark .qty-btn {
+        color: #f0ede6;
+        border-color: rgba(201, 169, 110, 0.3);
+      }
+      .qty-btn:hover {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+      .qty-val {
+        font-size: 0.85rem;
+        font-weight: 600;
+        min-width: 20px;
+        text-align: center;
+        color: var(--dark);
+      }
+      .dark .qty-val {
+        color: #f0ede6;
+      }
+      .remove-btn {
+        font-size: 0.65rem;
+        color: #aaa;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+      .remove-btn:hover {
+        color: #e05f7c;
+      }
+      .cart-item-price {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--dark);
+        flex-shrink: 0;
+      }
+      .dark .cart-item-price {
+        color: #f0ede6;
+      }
+
+      /* Modal */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(26, 26, 26, 0.75);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+      }
+      .modal-overlay.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .modal-box {
+        background: var(--cream);
+        max-width: 900px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        transform: translateY(20px);
+        transition: transform 0.3s;
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+      .dark .modal-box {
+        background: #1a1a1a;
+      }
+      .modal-overlay.open .modal-box {
+        transform: translateY(0);
+      }
+      @media (min-width: 768px) {
+        .modal-box {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .modal-img-panel {
+        background: #f0ece4;
+        position: relative;
+        min-height: 900px;
+      }
+      .dark .modal-img-panel {
+        background: #2a2a2a;
+      }
+      .modal-main-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        max-height: 900px;
+      }
+      .modal-thumbs {
+        display: flex;
+        gap: 6px;
+        padding: 10px 14px;
+        background: #e8e3da;
+        overflow-x: auto;
+      }
+      .dark .modal-thumbs {
+        background: #222;
+      }
+      .modal-thumb {
+        width: 52px;
+        height: 60px;
+        object-fit: cover;
+        cursor: pointer;
+        opacity: 0.6;
+        transition: opacity 0.2s;
+        border: 2px solid transparent;
+        flex-shrink: 0;
+      }
+      .modal-thumb.active,
+      .modal-thumb:hover {
+        opacity: 1;
+        border-color: var(--accent);
+      }
+      .modal-info {
+        padding: 32px 28px;
+        display: flex;
+        flex-direction: column;
+      }
+      .modal-close-btn {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        z-index: 10;
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .dark .modal-close-btn {
+        background: rgba(30, 30, 30, 0.85);
+      }
+      .modal-close-btn:hover {
+        background: var(--accent);
+        color: #fff;
+      }
+      .modal-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .dark .modal-arrow {
+        background: rgba(30, 30, 30, 0.85);
+      }
+      .modal-arrow:hover {
+        background: var(--accent);
+        color: #fff;
+      }
+      .modal-arrow-prev {
+        left: 10px;
+      }
+      .modal-arrow-next {
+        right: 10px;
+      }
+
+      /* About section */
+      .about-img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Newsletter */
+      .newsletter-section {
+        background: var(--dark);
+        position: relative;
+        overflow: hidden;
+      }
+      .newsletter-section::before {
+        content: "EVNIKA";
+        position: absolute;
+        right: -20px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(4rem, 12vw, 10rem);
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.04);
+        pointer-events: none;
+        white-space: nowrap;
+      }
+      .newsletter-input {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid rgba(201, 169, 110, 0.5);
+        color: #f0ede6;
+        padding: 12px 0;
+        font-size: 0.9rem;
+        width: 100%;
+        outline: none;
+        font-family: "DM Sans", sans-serif;
+      }
+      .newsletter-input::placeholder {
+        color: rgba(240, 237, 230, 0.4);
+      }
+      .newsletter-input:focus {
+        border-bottom-color: var(--accent);
+      }
+
+      /* Footer */
+      .site-footer {
+        background: #111;
+        color: #6b6560;
+      }
+      .dark .site-footer {
+        background: #0a0a0a;
+      }
+      .footer-link {
+        transition: color 0.2s;
+        font-size: 0.82rem;
+      }
+      .footer-link:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      [data-fade] {
+        opacity: 0;
+      }
+      [data-fade].visible {
+        animation: fadeUp 0.6s ease forwards;
+      }
+
+      .no-scroll {
+        overflow: hidden !important;
+      }
+
+      /* Mobile menu */
+      #mobile-nav {
+        position: fixed;
+        inset: 0;
+        background: var(--cream);
+        z-index: 7000;
+        transform: translateX(-100%);
+        transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        padding: 80px 40px 40px;
+      }
+      .dark #mobile-nav {
+        background: #111;
+      }
+      #mobile-nav.open {
+        transform: translateX(0);
+      }
+      .mobile-nav-link {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 2.5rem;
+        font-weight: 300;
+        color: var(--dark);
+        display: block;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(201, 169, 110, 0.15);
+        letter-spacing: -0.01em;
+        transition: color 0.2s;
+      }
+      .dark .mobile-nav-link {
+        color: #f0ede6;
+      }
+      .mobile-nav-link:hover {
+        color: var(--accent);
+      }
+
+      /* Category tabs */
+      .cat-tab {
+        padding: 8px 20px;
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-weight: 500;
+        color: #8b8475;
+        border: 1px solid rgba(201, 169, 110, 0.25);
+        cursor: pointer;
+        transition: all 0.2s;
+        white-space: nowrap;
+      }
+      .cat-tab.active,
+      .cat-tab:hover {
+        background: var(--dark);
+        color: #fff;
+        border-color: var(--dark);
+      }
+      .dark .cat-tab.active,
+      .dark .cat-tab:hover {
+        background: var(--accent);
+        border-color: var(--accent);
+      }
+
+      /* Search bar */
+      .search-wrap {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(201, 169, 110, 0.08);
+        padding: 8px 14px;
+        border: 1px solid rgba(201, 169, 110, 0.2);
+      }
+      .dark .search-wrap {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(201, 169, 110, 0.15);
+      }
+      .search-input {
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 0.8rem;
+        color: var(--dark);
+        width: 160px;
+        font-family: "DM Sans", sans-serif;
+      }
+      .dark .search-input {
+        color: #f0ede6;
+      }
+      .search-input::placeholder {
+        color: #aaa;
+      }
+
+      /* icon button */
+      .icon-btn {
+        position: relative;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #5a5248;
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+      .dark .icon-btn {
+        color: #9a9088;
+      }
+      .icon-btn:hover {
+        color: var(--accent);
+      }
+      .icon-badge {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        font-size: 0.58rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Responsive product grid */
+      #product-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+      @media (min-width: 640px) {
+        #product-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 20px;
+        }
+      }
+      @media (min-width: 768px) {
+        #product-grid {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 24px;
+        }
+      }
+      @media (min-width: 1024px) {
+        #product-grid {
+          grid-template-columns: repeat(4, 1fr);
+          gap: 28px;
+        }
+      }
+
+      /* Stats bar */
+      .stat-item {
+        text-align: center;
+        padding: 0 24px;
+      }
+      .stat-num {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 2.5rem;
+        font-weight: 300;
+        color: var(--accent);
+      }
+      .stat-label {
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #8b8475;
+        margin-top: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="toast-root"></div>
+
+    <!-- MOBILE NAV OVERLAY -->
+    <nav id="mobile-nav" aria-label="Mobile navigation">
+      <button
+        id="mobile-nav-close"
+        class="absolute top-6 right-6 icon-btn"
+        aria-label="Close menu"
+      >
+        <svg
+          width="22"
+          height="22"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          viewBox="0 0 24 24"
+        >
+          <path d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <a href="#top" class="mobile-nav-link" onclick="closeMobileNav()">Home</a>
+      <a href="#products" class="mobile-nav-link" onclick="closeMobileNav()"
+        >Shop</a
+      >
+      <a href="#about" class="mobile-nav-link" onclick="closeMobileNav()"
+        >About</a
+      >
+      <a href="#contact" class="mobile-nav-link" onclick="closeMobileNav()"
+        >Contact</a
+      >
+      <div class="mt-auto pt-8">
+        <p
+          class="text-xs tracking-widest uppercase text-muted mb-3"
+          style="color: #8b8475"
+        >
+          Follow Us
+        </p>
+        <div class="flex gap-4">
+          <a href="#" class="footer-link" style="color: #8b8475">Instagram</a>
+          <a href="#" class="footer-link" style="color: #8b8475">Facebook</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HEADER -->
+    <header id="site-header" class="sticky top-0 z-50">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4"
+      >
+        <!-- Logo -->
+        <img
+          src="logo.png"
+          alt="EVNIKA Logo"
+          style="height: 80px; width: auto"
+        />
+        <a
+          href="#top"
+          class="font-serif text-xl sm:text-2xl font-light tracking-widest flex-shrink-0"
+          style="color: var(--white); letter-spacing: 0.2em"
+        >
+          EVNIKA
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden lg:flex items-center gap-8">
+          <a href="#top" class="nav-link">Home</a>
+          <a href="#products" class="nav-link">Shop</a>
+          <a href="#about" class="nav-link">About</a>
+          <a href="#contact" class="nav-link">Contact</a>
+        </nav>
+
+        <!-- Actions -->
+        <div class="flex items-center gap-1 sm:gap-2">
+          <!-- Search (desktop) -->
+          <div class="hidden sm:flex search-wrap">
+            <svg
+              width="14"
+              height="14"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              style="color: #8b8475"
+            >
+              <path d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z" />
+            </svg>
+            <input
+              id="search-input"
+              type="search"
+              placeholder="Search..."
+              class="search-input"
+            />
+          </div>
+
+          <!-- Theme toggle -->
+          <button id="theme-btn" class="icon-btn" aria-label="Toggle theme">
+            <svg
+              id="sun-icon"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              class="hidden"
+            >
+              <circle cx="12" cy="12" r="5" />
+              <path
+                d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+              />
+            </svg>
+            <svg
+              id="moon-icon"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+              />
+            </svg>
+          </button>
+
+          <!-- Wishlist -->
+          <button id="wishlist-btn" class="icon-btn" aria-label="Wishlist">
+            <svg
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364 4.318 12.682a4.5 4.5 0 010-6.364z"
+              />
+            </svg>
+            <span id="wish-count" class="icon-badge">0</span>
+          </button>
+
+          <!-- Cart -->
+          <button id="cart-btn" class="icon-btn" aria-label="Cart">
+            <svg
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+            >
+              <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <span id="cart-count" class="icon-badge">0</span>
+          </button>
+
+          <!-- Mobile menu -->
+          <button
+            id="mobile-menu-btn"
+            class="lg:hidden icon-btn"
+            aria-label="Open menu"
+          >
+            <svg
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+            >
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile search bar -->
+      <div class="sm:hidden px-4 pb-3 flex search-wrap mx-4 mb-1">
+        <svg
+          width="14"
+          height="14"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          style="color: #8b8475"
+        >
+          <path d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z" />
+        </svg>
+        <input
+          id="search-input-mobile"
+          type="search"
+          placeholder="Search products..."
+          class="search-input"
+          style="width: 100%"
+        />
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- HERO -->
+      <section class="hero-section">
+        <div class="hero-bg" id="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content w-full max-w-7xl mx-auto px-6 sm:px-10">
+          <div class="max-w-2xl">
+            <p
+              class="text-xs tracking-widest uppercase mb-4 sm:mb-6"
+              style="color: var(--accent); animation: fadeUp 0.5s ease forwards"
+            >
+              New Collection 2026
+            </p>
+            <h1
+              class="hero-title mb-6 sm:mb-8"
+              style="animation: fadeUp 0.6s 0.1s ease both"
+            >
+              Dressed in<br />
+              <em>Elegance</em><br />
+              &amp; Grace
+            </h1>
+            <div
+              class="flex flex-wrap gap-4"
+              style="animation: fadeUp 0.6s 0.2s ease both"
+            >
+              <a href="#products" class="btn-primary">
+                Shop Now
+                <svg
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </a>
+              <a
+                href="#about"
+                class="btn-outline"
+                style="color: #fff; border-color: rgba(255, 255, 255, 0.4)"
+                >Our Story</a
+              >
+            </div>
+          </div>
+        </div>
+        <!-- Scroll indicator -->
+        <div
+          class="absolute bottom-8 left-1/2 -translate-x-1/2"
+          style="animation: fadeUp 1s 0.5s ease both"
+        >
+          <div
+            style="
+              width: 1px;
+              height: 50px;
+              background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0.6),
+                transparent
+              );
+              margin: 0 auto;
+            "
+          ></div>
+        </div>
+      </section>
+
+      <!-- STATS BAR -->
+      <div
+        class="py-10 sm:py-14 border-b"
+        style="border-color: rgba(201, 169, 110, 0.15)"
+        data-fade
+      >
+        <div
+          class="max-w-5xl mx-auto px-6 grid grid-cols-3 divide-x"
+          style="--tw-divide-color: rgba(201, 169, 110, 0.15)"
+        >
+          <div class="stat-item">
+            <div class="stat-num">5+</div>
+            <div class="stat-label">Products</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">12+</div>
+            <div class="stat-label">Happy Customers</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">100%</div>
+            <div class="stat-label">Authentic</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCTS -->
+      <section id="products" class="py-16 sm:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+          <div class="text-center mb-10 sm:mb-14" data-fade>
+            <p class="section-label">Curated For You</p>
+            <h2
+              class="section-title text-3xl sm:text-4xl md:text-5xl font-light"
+            >
+              The Must-Haves
+            </h2>
+          </div>
+
+          <div id="product-grid"></div>
+
+          <div class="text-center mt-10 sm:mt-14" data-fade>
+            <button
+              id="load-more-btn"
+              class="btn-outline"
+              type="button"
+              style="margin: 0 auto"
+            >
+              Load More
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about" class="py-0 overflow-hidden">
+        <div
+          class="max-w-7xl mx-auto"
+          style="display: grid; grid-template-columns: 1fr; min-height: 520px"
+        >
+          <div
+            style="display: grid; grid-template-columns: 1fr"
+            class="md:grid-cols-2"
+          >
+            <!-- Image -->
+            <div
+              class="relative overflow-hidden"
+              style="min-height: 320px; aspect-ratio: unset"
+            >
+              <img
+                src="logo.png"
+                style="height: 100%; width: auto"
+                alt="Sustainable Fashion"
+                class="about-img"
+                style="position: absolute; inset: 0"
+                loading="lazy"
+              />
+              <div
+                style="
+                  position: absolute;
+                  bottom: 20px;
+                  left: 20px;
+                  background: var(--accent);
+                  padding: 10px 16px;
+                "
+              >
+                <p class="font-serif text-white text-sm italic">
+                  Crafted with care
+                </p>
+              </div>
+            </div>
+            <!-- Text -->
+            <div
+              class="px-8 sm:px-14 py-14 sm:py-20 flex flex-col justify-center"
+              style="background: #ede8df"
+              data-fade
+            >
+              <p class="section-label" style="color: var(--accent)">
+                Our Philosophy
+              </p>
+              <h2
+                class="section-title text-3xl sm:text-4xl md:text-5xl font-light mb-6 leading-tight"
+              >
+                High-Quality,<br /><em>Sustainable</em> Fashion
+              </h2>
+              <p
+                style="
+                  font-size: 0.9rem;
+                  line-height: 1.8;
+                  color: #6b6560;
+                  max-width: 420px;
+                "
+                class="mb-8"
+              >
+                We believe fashion should be more than functional — it's an
+                investment in your style and a part of your daily life. We are
+                committed to sustainable sourcing and expert craftsmanship that
+                lasts.
+              </p>
+              <div class="flex flex-col sm:flex-row gap-4">
+                <a
+                  href="#contact"
+                  class="btn-primary"
+                  style="width: fit-content"
+                  >Discover More</a
+                >
+                <a
+                  href="policy.html"
+                  class="btn-outline"
+                  style="width: fit-content"
+                  >Our Policies</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- NEWSLETTER -->
+      <section id="contact" class="newsletter-section py-20 sm:py-28">
+        <div class="max-w-2xl mx-auto px-6 text-center relative z-10" data-fade>
+          <p class="section-label" style="color: var(--accent)">
+            Stay Connected
+          </p>
+          <h2
+            class="font-serif text-3xl sm:text-4xl md:text-5xl font-light mb-4 text-white"
+          >
+            Style Delivered to<br />Your Inbox
+          </h2>
+          <p
+            style="
+              color: rgba(240, 237, 230, 0.5);
+              font-size: 0.85rem;
+              margin-bottom: 36px;
+            "
+          >
+            New arrivals, exclusive offers and curated style guides — no spam,
+            ever.
+          </p>
+          <form
+            id="subscribe-form"
+            class="flex flex-col sm:flex-row gap-0 max-w-md mx-auto"
+          >
+            <input
+              id="subscribe-email"
+              type="email"
+              placeholder="Your email address"
+              class="newsletter-input flex-1 px-5"
+              style="
+                border: 1px solid rgba(201, 169, 110, 0.3);
+                border-right: none;
+                padding: 14px 18px;
+                background: rgba(255, 255, 255, 0.05);
+              "
+              required
+            />
+            <button
+              type="submit"
+              class="btn-primary flex-shrink-0"
+              style="border: 1px solid var(--accent)"
+            >
+              Subscribe
+            </button>
+          </form>
+          <p
+            style="
+              color: rgba(240, 237, 230, 0.3);
+              font-size: 0.72rem;
+              margin-top: 16px;
+              letter-spacing: 0.05em;
+            "
+          >
+            By subscribing you agree to our
+            <a href="policy.html" style="color: var(--accent)"
+              >Privacy Policy</a
+            >
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer py-14 sm:py-20">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-12">
+          <div class="col-span-2 sm:col-span-1">
+            <p
+              class="font-serif text-2xl font-light tracking-widest mb-4"
+              style="color: #f0ede6; letter-spacing: 0.2em"
+            >
+              FASHION
+            </p>
+            <p
+              style="
+                font-size: 0.78rem;
+                line-height: 1.7;
+                color: #6b6560;
+                max-width: 200px;
+              "
+            >
+              Premium apparel for the discerning customer. Crafted with
+              elegance.
+            </p>
+          </div>
+          <div>
+            <p
+              class="text-xs tracking-widest uppercase mb-4 font-semibold"
+              style="color: #f0ede6"
+            >
+              Explore
+            </p>
+            <ul class="space-y-3">
+              <li>
+                <a href="#top" class="footer-link" style="color: #6b6560"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a href="#products" class="footer-link" style="color: #6b6560"
+                  >Shop</a
+                >
+              </li>
+              <li>
+                <a href="#about" class="footer-link" style="color: #6b6560"
+                  >Our Story</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p
+              class="text-xs tracking-widest uppercase mb-4 font-semibold"
+              style="color: #f0ede6"
+            >
+              Support
+            </p>
+            <ul class="space-y-3">
+              <li>
+                <a href="policy.html" class="footer-link" style="color: #6b6560"
+                  >Policies</a
+                >
+              </li>
+              <li>
+                <a
+                  href="policy.html#shipping-returns"
+                  class="footer-link"
+                  style="color: #6b6560"
+                  >Shipping & Returns</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p
+              class="text-xs tracking-widest uppercase mb-4 font-semibold"
+              style="color: #f0ede6"
+            >
+              Contact
+            </p>
+            <ul class="space-y-3" style="font-size: 0.78rem; color: #6b6560">
+              <li>
+                <a
+                  href="tel:+918590895582"
+                  class="footer-link"
+                  style="color: #6b6560"
+                  >+91 8590895582</a
+                >
+              </li>
+              <li>
+                <a
+                  href="mailto:psree97palagatt@gmail.com"
+                  class="footer-link"
+                  style="color: #6b6560"
+                  >psree97palagatt@gmail.com</a
+                >
+              </li>
+              <li>Bangalore, Karnataka 560100</li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8"
+          style="border-top: 1px solid rgba(201, 169, 110, 0.1)"
+        >
+          <p style="font-size: 0.72rem; color: #4a4540">
+            &copy; 2025 EVNIKA. All rights reserved.
+          </p>
+          <div class="flex gap-5">
+            <a
+              href="#"
+              class="footer-link text-xs tracking-wider uppercase"
+              style="color: #4a4540"
+              >Instagram</a
+            >
+            <a
+              href="#"
+              class="footer-link text-xs tracking-wider uppercase"
+              style="color: #4a4540"
+              >Facebook</a
+            >
+            <a
+              href="#"
+              class="footer-link text-xs tracking-wider uppercase"
+              style="color: #4a4540"
+              >Twitter</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- PANEL OVERLAY -->
+    <div id="panel-overlay" class="panel-overlay"></div>
+
+    <!-- CART PANEL -->
+    <aside
+      id="cart-panel"
+      class="side-panel"
+      role="dialog"
+      aria-label="Shopping cart"
+    >
+      <div class="panel-header">
+        <span class="panel-title">Your Cart</span>
+        <button class="panel-close-btn" id="close-cart" aria-label="Close cart">
+          <svg
+            width="18"
+            height="18"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            viewBox="0 0 24 24"
+          >
+            <path d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="panel-body" id="cart-items-container"></div>
+      <div class="panel-footer">
+        <div class="flex justify-between mb-1">
+          <span
+            style="
+              font-size: 0.75rem;
+              letter-spacing: 0.1em;
+              text-transform: uppercase;
+              color: #8b8475;
+            "
+            >Subtotal</span
+          >
+          <span
+            id="cart-subtotal"
+            style="
+              font-family: &quot;Cormorant Garamond&quot;, serif;
+              font-size: 1.3rem;
+              color: var(--dark);
+            "
+            class="dark:text-cream font-light"
+            >₹0</span
+          >
+        </div>
+        <p style="font-size: 0.7rem; color: #ffffff; margin-bottom: 16px">
+          Shipping calculated at checkout
+        </p>
+        <button id="checkout-btn" class="btn-primary w-full justify-center">
+          Proceed to Checkout
+        </button>
+      </div>
+    </aside>
+
+    <!-- WISHLIST PANEL -->
+    <aside
+      id="wishlist-panel"
+      class="side-panel"
+      role="dialog"
+      aria-label="Wishlist"
+    >
+      <div class="panel-header">
+        <span class="panel-title">Wishlist</span>
+        <button
+          class="panel-close-btn"
+          id="close-wishlist"
+          aria-label="Close wishlist"
+        >
+          <svg
+            width="18"
+            height="18"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            viewBox="0 0 24 24"
+          >
+            <path d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="panel-body" id="wishlist-items-container"></div>
+      <div class="panel-footer">
+        <button id="add-all-to-cart" class="btn-primary w-full justify-center">
+          Add All to Cart
+        </button>
+      </div>
+    </aside>
+
+    <!-- PRODUCT MODAL -->
+    <div
+      id="modal-overlay"
+      class="modal-overlay"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div class="modal-box">
+        <div class="modal-img-panel" style="position: relative">
+          <button
+            class="modal-close-btn modal-arrow-next"
+            id="modal-close"
+            aria-label="Close"
+            style="right: 10px; top: 10px; transform: none; position: absolute"
+          >
+            <svg
+              width="16"
+              height="16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          <img id="modal-main-img" src="" alt="" class="modal-main-img" />
+          <button
+            class="modal-arrow modal-arrow-prev"
+            id="modal-prev"
+            aria-label="Previous"
+          >
+            &#8592;
+          </button>
+          <button
+            class="modal-arrow modal-arrow-next"
+            id="modal-next"
+            aria-label="Next"
+            style="right: 10px"
+          >
+            &#8594;
+          </button>
+          <div class="modal-thumbs" id="modal-thumbs"></div>
+        </div>
+        <div class="modal-info">
+          <p
+            id="modal-brand"
+            class="section-label"
+            style="margin-bottom: 6px"
+          ></p>
+          <br />
+          <br />
+          <h3
+            id="modal-name"
+            class="font-serif text-2xl sm:text-3xl font-light mb-3"
+            style="color: var(--dark); line-height: 1.15"
+          ></h3>
+          <div
+            id="modal-price-wrap"
+            class="flex items-baseline gap-3 mb-5"
+          ></div>
+          <p
+            id="modal-desc"
+            style="
+              font-size: 0.85rem;
+              line-height: 1.8;
+              color: #8b8475;
+              margin-bottom: 20px;
+            "
+          ></p>
+          <div class="flex items-center gap-3 mb-5">
+            <label
+              style="
+                font-size: 0.7rem;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: #8b8475;
+              "
+              >Qty</label
+            >
+            <div class="flex items-center">
+              <button class="qty-btn" id="modal-qty-dec">−</button>
+              <span class="qty-val" id="modal-qty-val" style="min-width: 32px"
+                >1</span
+              >
+              <button class="qty-btn" id="modal-qty-inc">+</button>
+            </div>
+          </div>
+          <button
+            id="modal-add-cart"
+            class="btn-primary w-full justify-center mb-3"
+          >
+            Add to Cart
+          </button>
+          <button id="modal-wish" class="btn-outline w-full justify-center">
+            Add to Wishlist
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // ── PRODUCTS DATA ──────────────────────────────────────
+        const products = [
+          {
+            id: 1,
+            name: "Meenakshi -Kanchi Cotton | Korvai Checks",
+            brand: "EVNIKA",
+            price: 2100,
+            originalPrice: 3599,
+            category: "sarees",
+            desc: "Presenting our premium Meenakshi Pure Chettinad Cotton Saree, woven with traditional Muthu Kattam (Classic Checks) design. This saree features an elegant Korvai Retta Pet Style with a rich Ganga Jamuna Zari Border, offering a stunning heritage look for all cultural celebrations.",
+            images: ["img1.jpg", "img1-1.webp", "img1-2.webp", "img1-3.webp"],
+          },
+          {
+            id: 2,
+            name: "Kalyani Cotton Checks Retta Petta",
+            brand: "EVNIKA",
+            price: 1760,
+            originalPrice: 2999,
+            category: "sarees",
+            desc: "Experience the perfect blend of tradition and modern elegance with our Kalyani Cotton Checks Saree. Woven with classic checks, this saree features a striking contrast Retta Petta border and a rich contrast pallu, adding a bold touch to your look. The striped blouse completes the ensemble, making it ideal for any occasion.",
+            images: ["img2.jpeg", "img2-1.webp", "img2-2.webp", "img2-3.webp"],
+          },
+          {
+            id: 3,
+            name: "Meenakshi -Premium Kanchi Cotton Saree– Gold With Lavender",
+            brand: "EVNIKA",
+            price: 1950,
+            originalPrice: 3499,
+            category: "sarees",
+            desc: "Explore our exclusive collection of Meenakshi Kanchi Cotton Sarees, crafted with traditional weaving techniques and premium cotton. These sarees feature classic patterns like Vaira Oosi, Korvai Checks and Rettapet borders, offering a perfect blend of tradition and elegance.Each saree in this collection comes with a rich zari border, elegant pallu and matching blouse, making it ideal for temple wear, festive occasions and everyday traditional styling.",
+            images: ["img3.jpeg", "img3-1.webp", "img3-2.webp", "img3-3.webp"],
+          },
+          {
+            id: 4,
+            name: "Meenakshi -Kanchi Cotton | Korvai Checks GJ",
+            brand: "EVNIKA",
+            price: 2100,
+            originalPrice: 3599,
+            category: "sarees",
+            desc: "Presenting our premium Meenakshi Pure Kanchi Cotton Saree, woven with traditional Muthu Kattam (Classic Checks) design. This saree features an elegant Korvai Retta Pet Style with a rich Ganga Jamuna Zari Border, offering a stunning heritage look for all cultural celebrations.",
+            images: ["img4.jpeg", "img4-1.webp", "img4-2.webp", "img4-3.webp"],
+          },
+          {
+            id: 5,
+            name: "Italian Silk Sarees",
+            brand: "EVNIKA",
+            price: 1650,
+            originalPrice: 3499,
+            category: "sarees",
+            desc: "Step into elegance with our ItalianSilk Sarees - a Trending Collection known for its flowy and shiny drape. Featuring a soft finish with all-over Small Subtle Zari Lines & Printed Drop dot Design and a subtle small Viscose zari border, this saree is perfect for everyday elegance, office wear, functions, and casual gatherings.",
+            images: ["img6-1.png", 'img6.webp'],
+          },
+          {
+            id: 6,
+            name: "Kerala Taditional Set Mundu",
+            brand: "EVNIKA",
+            price: 1360,
+            originalPrice: 2499,
+            category: "sarees",
+            desc: "The Set Mundu (also known as Mundum Neriyathum) is the traditional two-piece attire worn by women in Kerala. It is widely considered the oldest form of the saree, consisting of a lower garment (Mundu) and an upper drape (Neriyathu).",
+            images: ["img5.jpeg", 'img5-1.jpeg'],
+          },
+          {
+            id: 7,
+            name: "Kerala Taditional Set Mundu",
+            brand: "EVNIKA",
+            price: 1360,
+            originalPrice: 2499,
+            category: "sarees",
+            desc: "The Set Mundu (also known as Mundum Neriyathum) is the traditional two-piece attire worn by women in Kerala. It is widely considered the oldest form of the saree, consisting of a lower garment (Mundu) and an upper drape (Neriyathu).",
+            images: ["img7.jpg", 'img7-1.jpeg'],
+          },
+          {
+            id: 8,
+            name: "Kerala Taditional Set Mundu",
+            brand: "EVNIKA",
+            price: 1360,
+            originalPrice: 2499,
+            category: "sarees",
+            desc: "The Set Mundu (also known as Mundum Neriyathum) is the traditional two-piece attire worn by women in Kerala. It is widely considered the oldest form of the saree, consisting of a lower garment (Mundu) and an upper drape (Neriyathu).",
+            images: ["img8.jpg", 'img8-1.jpeg'],
+          },
+        ];
+
+        // ── STATE ──────────────────────────────────────────────
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+        let currentFilter = "";
+        let currentCategory = "all";
+        let modalProductId = null;
+        let modalImages = [];
+        let modalIndex = 0;
+        let modalQty = 1;
+        const PRODUCTS_PER_LOAD = 4;
+        let visibleCount = PRODUCTS_PER_LOAD;
+
+        // ── DOM REFS ───────────────────────────────────────────
+        const productGrid = document.getElementById("product-grid");
+        const loadMoreBtn = document.getElementById("load-more-btn");
+        const cartPanel = document.getElementById("cart-panel");
+        const wishlistPanel = document.getElementById("wishlist-panel");
+        const panelOverlay = document.getElementById("panel-overlay");
+        const cartBtn = document.getElementById("cart-btn");
+        const closeCart = document.getElementById("close-cart");
+        const wishlistBtn = document.getElementById("wishlist-btn");
+        const closeWishlist = document.getElementById("close-wishlist");
+        const cartCount = document.getElementById("cart-count");
+        const wishCount = document.getElementById("wish-count");
+        const cartItemsEl = document.getElementById("cart-items-container");
+        const wishlistItemsEl = document.getElementById(
+          "wishlist-items-container",
+        );
+        const cartSubtotal = document.getElementById("cart-subtotal");
+        const checkoutBtn = document.getElementById("checkout-btn");
+        const addAllBtn = document.getElementById("add-all-to-cart");
+        const toastRoot = document.getElementById("toast-root");
+        const modalOverlay = document.getElementById("modal-overlay");
+        const modalMainImg = document.getElementById("modal-main-img");
+        const modalName = document.getElementById("modal-name");
+        const modalBrand = document.getElementById("modal-brand");
+        const modalPriceWrap = document.getElementById("modal-price-wrap");
+        const modalDesc = document.getElementById("modal-desc");
+        const modalThumbs = document.getElementById("modal-thumbs");
+        const modalClose = document.getElementById("modal-close");
+        const modalPrev = document.getElementById("modal-prev");
+        const modalNext = document.getElementById("modal-next");
+        const modalAddCart = document.getElementById("modal-add-cart");
+        const modalWishBtn = document.getElementById("modal-wish");
+        const modalQtyVal = document.getElementById("modal-qty-val");
+        const modalQtyDec = document.getElementById("modal-qty-dec");
+        const modalQtyInc = document.getElementById("modal-qty-inc");
+        const themeBtn = document.getElementById("theme-btn");
+        const sunIcon = document.getElementById("sun-icon");
+        const moonIcon = document.getElementById("moon-icon");
+        const subscribeForm = document.getElementById("subscribe-form");
+        const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+        const mobileNav = document.getElementById("mobile-nav");
+        const mobileNavClose = document.getElementById("mobile-nav-close");
+        const searchInput = document.getElementById("search-input");
+        const searchInputMobile = document.getElementById(
+          "search-input-mobile",
+        );
+        const siteHeader = document.getElementById("site-header");
+
+        // ── THEME ──────────────────────────────────────────────
+        const savedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+          document.documentElement.classList.add("dark");
+          sunIcon.classList.remove("hidden");
+          moonIcon.classList.add("hidden");
+        } else {
+          moonIcon.classList.remove("hidden");
+          sunIcon.classList.add("hidden");
+        }
+        themeBtn.addEventListener("click", () => {
+          const isDark = document.documentElement.classList.toggle("dark");
+          localStorage.setItem("theme", isDark ? "dark" : "light");
+          if (isDark) {
+            sunIcon.classList.remove("hidden");
+            moonIcon.classList.add("hidden");
+          } else {
+            moonIcon.classList.remove("hidden");
+            sunIcon.classList.add("hidden");
+          }
+        });
+
+        // ── SCROLL HEADER ─────────────────────────────────────
+        window.addEventListener("scroll", () => {
+          siteHeader.classList.toggle("scrolled", window.scrollY > 20);
+        });
+
+        // ── TOAST ──────────────────────────────────────────────
+        function showToast(msg) {
+          const el = document.createElement("div");
+          el.className = "toast-item";
+          el.textContent = msg;
+          toastRoot.appendChild(el);
+          setTimeout(() => {
+            el.classList.add("toast-out");
+            el.addEventListener("animationend", () => el.remove());
+          }, 2000);
+        }
+
+        // ── SAVE STATE ─────────────────────────────────────────
+        function saveState() {
+          localStorage.setItem("cart", JSON.stringify(cart));
+          localStorage.setItem("wishlist", JSON.stringify(wishlist));
+        }
+
+        // ── COUNTS ─────────────────────────────────────────────
+        function updateCounts() {
+          cartCount.textContent = cart.reduce((s, i) => s + i.quantity, 0);
+          wishCount.textContent = wishlist.length;
+        }
+
+        function resetVisibleProducts() {
+          visibleCount = PRODUCTS_PER_LOAD;
+        }
+
+        // ── RENDER PRODUCTS ───────────────────────────────────
+        function renderProducts() {
+          const q = currentFilter.toLowerCase();
+          const filtered = products.filter((p) => {
+            const matchCat =
+              currentCategory === "all" || p.category === currentCategory;
+            const matchQ =
+              !q ||
+              p.name.toLowerCase().includes(q) ||
+              p.brand.toLowerCase().includes(q);
+            return matchCat && matchQ;
+          });
+          if (!filtered.length) {
+            productGrid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:60px 0; color:#8B8475; font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:300;">No products found</div>`;
+            if (loadMoreBtn) loadMoreBtn.style.display = "none";
+            return;
+          }
+          const visibleProducts = filtered.slice(0, visibleCount);
+
+          productGrid.innerHTML = visibleProducts
+            .map((p) => {
+              const off =
+                p.originalPrice > p.price
+                  ? Math.round((1 - p.price / p.originalPrice) * 100)
+                  : 0;
+              const isWished = wishlist.includes(p.id);
+              return `
+        <div class="product-card" data-fade>
+          <div class="card-img-wrap">
+            <img class="card-img" src="${p.images[0]}" alt="${p.name}" loading="lazy" />
+          </div>
+          ${off > 0 ? `<div class="card-badge">${off}% Off</div>` : ""}
+          <button class="card-heart ${isWished ? "active" : ""}" data-wish="${p.id}" aria-label="Wishlist">
+            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364 4.318 12.682a4.5 4.5 0 010-6.364z"/></svg>
+          </button>
+          <div class="card-body">
+            <p class="card-brand">${p.brand}</p>
+            <p class="card-name">${p.name}</p>
+            <div class="card-price">
+              <span class="card-price-sale">₹${p.price.toLocaleString()}</span>
+              ${p.originalPrice > p.price ? `<span class="card-price-orig">₹${p.originalPrice.toLocaleString()}</span>` : ""}
+              ${off > 0 ? `<span class="card-price-off">${off}% off</span>` : ""}
+            </div>
+            <button class="card-add" data-id="${p.id}">Add to Cart</button>
+          </div>
+          <div style="position:absolute;inset:0;cursor:pointer;" class="product-open" data-id="${p.id}"></div>
+        </div>`;
+            })
+            .join("");
+
+          // fade in
+          productGrid.querySelectorAll("[data-fade]").forEach((el, i) => {
+            el.style.animationDelay = `${i * 0.06}s`;
+            setTimeout(() => el.classList.add("visible"), 50);
+          });
+
+          // Card click → open modal
+          productGrid.querySelectorAll(".product-open").forEach((el) => {
+            el.addEventListener("click", (e) => {
+              if (
+                e.target.closest(".card-add") ||
+                e.target.closest(".card-heart")
+              )
+                return;
+              openModal(Number(el.dataset.id));
+            });
+          });
+
+          // Add to cart buttons
+          productGrid.querySelectorAll(".card-add").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+              e.stopPropagation();
+              addToCart(Number(btn.dataset.id), 1);
+            });
+          });
+
+          // Wishlist buttons
+          productGrid.querySelectorAll(".card-heart").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+              e.stopPropagation();
+              toggleWishlist(Number(btn.dataset.wish));
+              btn.classList.toggle(
+                "active",
+                wishlist.includes(Number(btn.dataset.wish)),
+              );
+            });
+          });
+
+          if (loadMoreBtn) {
+            loadMoreBtn.style.display =
+              visibleCount < filtered.length ? "inline-flex" : "none";
+          }
+        }
+
+        // ── CART ──────────────────────────────────────────────
+        function addToCart(id, qty = 1) {
+          const p = products.find((x) => x.id === id);
+          if (!p) return;
+          const existing = cart.find((x) => x.id === id);
+          if (existing) existing.quantity += qty;
+          else
+            cart.push({
+              id: p.id,
+              name: p.name,
+              brand: p.brand,
+              price: p.price,
+              originalPrice: p.originalPrice,
+              image: p.images[0],
+              quantity: qty,
+            });
+          saveState();
+          updateCounts();
+          renderCart();
+          showToast(`${p.name} added to cart`);
+        }
+
+        function renderCart() {
+          if (!cart.length) {
+            cartItemsEl.innerHTML = `<div style="text-align:center; padding:60px 20px; color:#8B8475; font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:300;">Your cart is empty</div>`;
+            cartSubtotal.textContent = "₹0";
+            return;
+          }
+          cartItemsEl.innerHTML = cart
+            .map(
+              (item) => `
+        <div class="cart-item">
+          <img class="cart-item-img" src="${item.image}" alt="${item.name}" />
+          <div class="cart-item-info">
+            <p class="cart-item-brand">${item.brand}</p>
+            <p class="cart-item-name">${item.name}</p>
+            <div class="cart-item-qty">
+              <button class="qty-btn" data-cart-dec="${item.id}">−</button>
+              <span class="qty-val">${item.quantity}</span>
+              <button class="qty-btn" data-cart-inc="${item.id}">+</button>
+              <span class="remove-btn" data-cart-remove="${item.id}">Remove</span>
+            </div>
+          </div>
+          <span class="cart-item-price">₹${(item.price * item.quantity).toLocaleString()}</span>
+        </div>`,
+            )
+            .join("");
+          const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+          cartSubtotal.textContent = `₹${subtotal.toLocaleString()}`;
+
+          cartItemsEl.querySelectorAll("[data-cart-dec]").forEach((btn) =>
+            btn.addEventListener("click", () => {
+              changeQty(Number(btn.dataset.cartDec), -1);
+            }),
+          );
+          cartItemsEl.querySelectorAll("[data-cart-inc]").forEach((btn) =>
+            btn.addEventListener("click", () => {
+              changeQty(Number(btn.dataset.cartInc), 1);
+            }),
+          );
+          cartItemsEl.querySelectorAll("[data-cart-remove]").forEach((btn) =>
+            btn.addEventListener("click", () => {
+              removeFromCart(Number(btn.dataset.cartRemove));
+            }),
+          );
+        }
+
+        function changeQty(id, delta) {
+          const item = cart.find((x) => x.id === id);
+          if (!item) return;
+          item.quantity += delta;
+          if (item.quantity <= 0) cart = cart.filter((x) => x.id !== id);
+          saveState();
+          updateCounts();
+          renderCart();
+        }
+        function removeFromCart(id) {
+          cart = cart.filter((x) => x.id !== id);
+          saveState();
+          updateCounts();
+          renderCart();
+        }
+
+        // ── WISHLIST ──────────────────────────────────────────
+        function toggleWishlist(id) {
+          if (wishlist.includes(id)) {
+            wishlist = wishlist.filter((x) => x !== id);
+            showToast("Removed from wishlist");
+          } else {
+            wishlist.push(id);
+            showToast("Added to wishlist");
+          }
+          saveState();
+          updateCounts();
+          renderWishlist();
+        }
+
+        function renderWishlist() {
+          const items = products.filter((p) => wishlist.includes(p.id));
+          if (!items.length) {
+            wishlistItemsEl.innerHTML = `<div style="text-align:center; padding:60px 20px; color:#8B8475; font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:300;">Your wishlist is empty</div>`;
+            return;
+          }
+          wishlistItemsEl.innerHTML = items
+            .map(
+              (p) => `
+        <div class="cart-item">
+          <img class="cart-item-img" src="${p.images[0]}" alt="${p.name}" />
+          <div class="cart-item-info">
+            <p class="cart-item-brand">${p.brand}</p>
+            <p class="cart-item-name">${p.name}</p>
+            <p style="font-size:0.85rem; font-weight:600; color:var(--dark); margin-top:4px;">₹${p.price.toLocaleString()}</p>
+            <span class="remove-btn" data-wish-remove="${p.id}">Remove</span>
+          </div>
+          <button class="qty-btn" data-wish-cart="${p.id}" style="flex-shrink:0; width:auto; padding:0 10px; height:32px;" title="Add to cart">+ Cart</button>
+        </div>`,
+            )
+            .join("");
+          wishlistItemsEl
+            .querySelectorAll("[data-wish-remove]")
+            .forEach((btn) =>
+              btn.addEventListener("click", () => {
+                toggleWishlist(Number(btn.dataset.wishRemove));
+                renderProducts();
+              }),
+            );
+          wishlistItemsEl.querySelectorAll("[data-wish-cart]").forEach((btn) =>
+            btn.addEventListener("click", () => {
+              addToCart(Number(btn.dataset.wishCart));
+            }),
+          );
+        }
+
+        addAllBtn.addEventListener("click", () => {
+          wishlist.forEach((id) => addToCart(id, 1));
+          openPanel(cartPanel);
+          closePanel(wishlistPanel);
+        });
+
+        // ── PANELS ────────────────────────────────────────────
+        function openPanel(panel) {
+          panel.classList.add("open");
+          panelOverlay.classList.add("open");
+          document.body.classList.add("no-scroll");
+        }
+        function closePanel(panel) {
+          panel.classList.remove("open");
+          if (
+            !cartPanel.classList.contains("open") &&
+            !wishlistPanel.classList.contains("open")
+          ) {
+            panelOverlay.classList.remove("open");
+            document.body.classList.remove("no-scroll");
+          }
+        }
+        cartBtn.addEventListener("click", () => {
+          renderCart();
+          openPanel(cartPanel);
+        });
+        wishlistBtn.addEventListener("click", () => {
+          renderWishlist();
+          openPanel(wishlistPanel);
+        });
+        closeCart.addEventListener("click", () => closePanel(cartPanel));
+        closeWishlist.addEventListener("click", () =>
+          closePanel(wishlistPanel),
+        );
+        panelOverlay.addEventListener("click", () => {
+          closePanel(cartPanel);
+          closePanel(wishlistPanel);
+        });
+        checkoutBtn.addEventListener("click", () => {
+          if (!cart.length) {
+            showToast("Your cart is empty");
+            return;
+          }
+          localStorage.setItem(
+            "checkoutTotal",
+            cart.reduce((s, i) => s + i.price * i.quantity, 0),
+          );
+          window.location.href = "checkout.html";
+        });
+
+        // ── MODAL ─────────────────────────────────────────────
+        function openModal(id) {
+          const p = products.find((x) => x.id === id);
+          if (!p) return;
+          modalProductId = id;
+          modalImages = p.images;
+          modalIndex = 0;
+          modalQty = 1;
+          modalQtyVal.textContent = "1";
+          modalName.textContent = p.name;
+          modalBrand.textContent = p.brand;
+          modalDesc.textContent = p.desc;
+          const off =
+            p.originalPrice > p.price
+              ? Math.round((1 - p.price / p.originalPrice) * 100)
+              : 0;
+          modalPriceWrap.innerHTML = `
+        <span style="font-family:'Cormorant Garamond',serif; font-size:1.6rem; color:var(--dark);">₹${p.price.toLocaleString()}</span>
+        ${p.originalPrice > p.price ? `<span style="font-size:0.85rem; color:#aaa; text-decoration:line-through;">₹${p.originalPrice.toLocaleString()}</span>` : ""}
+        ${off > 0 ? `<span style="font-size:0.7rem; color:#5a9e6f; font-weight:600; letter-spacing:0.05em;">${off}% off</span>` : ""}`;
+          setModalImg(0);
+          renderModalThumbs();
+          modalWishBtn.textContent = wishlist.includes(id)
+            ? "♥ Remove from Wishlist"
+            : "♡ Add to Wishlist";
+          modalOverlay.classList.add("open");
+          document.body.classList.add("no-scroll");
+        }
+
+        function setModalImg(i) {
+          modalIndex = (i + modalImages.length) % modalImages.length;
+          modalMainImg.src = modalImages[modalIndex];
+          modalThumbs
+            .querySelectorAll(".modal-thumb")
+            .forEach((t, idx) =>
+              t.classList.toggle("active", idx === modalIndex),
+            );
+        }
+
+        function renderModalThumbs() {
+          modalThumbs.innerHTML = modalImages
+            .map(
+              (src, i) =>
+                `<img src="${src}" class="modal-thumb ${i === 0 ? "active" : ""}" data-idx="${i}" alt="" />`,
+            )
+            .join("");
+          modalThumbs
+            .querySelectorAll(".modal-thumb")
+            .forEach((t) =>
+              t.addEventListener("click", () =>
+                setModalImg(Number(t.dataset.idx)),
+              ),
+            );
+        }
+
+        function closeModal() {
+          modalOverlay.classList.remove("open");
+          document.body.classList.remove("no-scroll");
+        }
+        modalClose.addEventListener("click", closeModal);
+        modalOverlay.addEventListener("click", (e) => {
+          if (e.target === modalOverlay) closeModal();
+        });
+        modalPrev.addEventListener("click", () => setModalImg(modalIndex - 1));
+        modalNext.addEventListener("click", () => setModalImg(modalIndex + 1));
+        modalQtyDec.addEventListener("click", () => {
+          if (modalQty > 1) {
+            modalQty--;
+            modalQtyVal.textContent = modalQty;
+          }
+        });
+        modalQtyInc.addEventListener("click", () => {
+          modalQty++;
+          modalQtyVal.textContent = modalQty;
+        });
+        modalAddCart.addEventListener("click", () => {
+          addToCart(modalProductId, modalQty);
+          closeModal();
+        });
+        modalWishBtn.addEventListener("click", () => {
+          toggleWishlist(modalProductId);
+          modalWishBtn.textContent = wishlist.includes(modalProductId)
+            ? "♥ Remove from Wishlist"
+            : "♡ Add to Wishlist";
+          renderProducts();
+        });
+
+        // ── CATEGORY TABS ─────────────────────────────────────
+        document.querySelectorAll(".cat-tab").forEach((tab) => {
+          tab.addEventListener("click", () => {
+            document
+              .querySelectorAll(".cat-tab")
+              .forEach((t) => t.classList.remove("active"));
+            tab.classList.add("active");
+            currentCategory = tab.dataset.cat;
+            resetVisibleProducts();
+            renderProducts();
+          });
+        });
+
+        // ── SEARCH ────────────────────────────────────────────
+        [searchInput, searchInputMobile].forEach((input) => {
+          if (!input) return;
+          input.addEventListener("input", () => {
+            currentFilter = input.value.trim();
+            if (input === searchInput && searchInputMobile)
+              searchInputMobile.value = input.value;
+            if (input === searchInputMobile && searchInput)
+              searchInput.value = input.value;
+            resetVisibleProducts();
+            renderProducts();
+          });
+        });
+
+        if (loadMoreBtn) {
+          loadMoreBtn.addEventListener("click", () => {
+            visibleCount += PRODUCTS_PER_LOAD;
+            renderProducts();
+          });
+        }
+
+        // ── MOBILE NAV ────────────────────────────────────────
+        mobileMenuBtn.addEventListener("click", () => {
+          mobileNav.classList.add("open");
+          document.body.classList.add("no-scroll");
+        });
+        mobileNavClose.addEventListener("click", () => closeMobileNav());
+        window.closeMobileNav = () => {
+          mobileNav.classList.remove("open");
+          document.body.classList.remove("no-scroll");
+        };
+
+        // ── SUBSCRIBE ─────────────────────────────────────────
+        subscribeForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const email = document.getElementById("subscribe-email").value.trim();
+          if (!email) return;
+          showToast("Subscribed! Welcome to the family ✨");
+          subscribeForm.reset();
+        });
+
+        // ── SCROLL ANIMATIONS ─────────────────────────────────
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add("visible");
+                observer.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.1 },
+        );
+        document
+          .querySelectorAll("[data-fade]")
+          .forEach((el) => observer.observe(el));
+
+        // ── KEYBOARD ──────────────────────────────────────────
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") {
+            closeModal();
+            closePanel(cartPanel);
+            closePanel(wishlistPanel);
+            closeMobileNav();
+          }
+        });
+
+        // ── HERO BG LOAD ANIMATION ────────────────────────────
+        setTimeout(
+          () => document.getElementById("hero-bg").classList.add("loaded"),
+          100,
+        );
+
+        // ── INIT ──────────────────────────────────────────────
+        renderProducts();
+        updateCounts();
+      });
+    </script>
+  </body>
+</html>

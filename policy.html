@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en" class="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Policies | EVNIKA Store</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  <style>
+    :root { --accent: #C9A96E; --dark: #1A1A1A; --cream: #F5F0E8; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--dark); }
+    .dark body { background: #111; color: #F0EDE6; }
+    .font-serif { font-family: 'Cormorant Garamond', serif; }
+
+    /* Header */
+    .site-header {
+      background: rgba(245,240,232,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,169,110,0.2);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .dark .site-header { background: rgba(17,17,17,0.92); }
+
+    /* Hero banner */
+    .policy-hero {
+      background: var(--dark);
+      padding: 60px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .dark .policy-hero { background: #0d0d0d; }
+    .policy-hero::before {
+      content: 'POLICY';
+      position: absolute; right: -10px; top: 50%; transform: translateY(-50%);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(5rem, 15vw, 12rem); font-weight: 300;
+      color: rgba(255,255,255,0.03);
+      pointer-events: none; white-space: nowrap;
+    }
+
+    /* Layout */
+    .policy-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 16px;
+    }
+    @media (min-width: 900px) {
+      .policy-layout { grid-template-columns: 240px 1fr; padding: 48px 32px; }
+    }
+
+    /* Sidebar TOC */
+    .toc-sidebar {
+      display: none;
+    }
+    @media (min-width: 900px) {
+      .toc-sidebar { display: block; position: sticky; top: 90px; align-self: start; }
+    }
+    .toc-label {
+      font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase;
+      font-weight: 700; color: var(--accent); margin-bottom: 14px;
+    }
+    .toc-link {
+      display: block; padding: 7px 0;
+      font-size: 0.78rem; color: #8B8475; text-decoration: none;
+      border-bottom: 1px solid rgba(201,169,110,0.1);
+      transition: color 0.2s, padding-left 0.2s;
+      letter-spacing: 0.02em;
+    }
+    .toc-link:hover { color: var(--accent); padding-left: 6px; }
+    .toc-link.active { color: var(--accent); font-weight: 500; }
+
+    /* Mobile TOC */
+    .mobile-toc {
+      background: #fff; border: 1px solid rgba(201,169,110,0.15);
+      padding: 16px 20px; margin-bottom: 24px;
+    }
+    .dark .mobile-toc { background: #1a1a1a; }
+    @media (min-width: 900px) { .mobile-toc { display: none; } }
+    .mobile-toc summary {
+      cursor: pointer; font-size: 0.72rem; letter-spacing: 0.12em;
+      text-transform: uppercase; font-weight: 600; color: var(--accent);
+      user-select: none;
+    }
+    .mobile-toc-links { margin-top: 12px; }
+
+    /* Policy sections */
+    .policy-section {
+      margin-bottom: 48px;
+      scroll-margin-top: 90px;
+    }
+    .policy-section-header {
+      display: flex; align-items: flex-start; gap: 16px; margin-bottom: 22px;
+      padding-bottom: 16px; border-bottom: 1px solid rgba(201,169,110,0.2);
+    }
+    .section-letter {
+      flex-shrink: 0;
+      width: 40px; height: 40px;
+      background: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-weight: 500; color: #fff;
+    }
+    .policy-section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 400; color: var(--dark); line-height: 1.2;
+      margin: 0;
+    }
+    .dark .policy-section h2 { color: #F0EDE6; }
+    .policy-section h3 {
+      font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+      font-weight: 700; color: var(--accent); margin: 20px 0 8px;
+    }
+    .policy-section p {
+      font-size: 0.875rem; line-height: 1.85; color: #5a5248; margin-bottom: 12px;
+    }
+    .dark .policy-section p { color: #9a9088; }
+    .policy-section a { color: var(--accent); text-decoration: none; }
+    .policy-section a:hover { text-decoration: underline; }
+    .policy-section ol, .policy-section ul {
+      margin: 10px 0 14px 20px; font-size: 0.875rem; line-height: 1.85; color: #5a5248;
+    }
+    .dark .policy-section ol, .dark .policy-section ul { color: #9a9088; }
+    .policy-section ol { list-style-type: decimal; }
+    .policy-section ul { list-style-type: disc; }
+    .policy-section li { margin-bottom: 6px; }
+
+    /* Info card */
+    .info-card {
+      background: rgba(201,169,110,0.07);
+      border: 1px solid rgba(201,169,110,0.2);
+      padding: 16px 20px; margin: 16px 0;
+      font-size: 0.82rem; color: #8B8475; line-height: 1.7;
+    }
+    .dark .info-card { background: rgba(201,169,110,0.05); }
+
+    /* Contact block */
+    .contact-block {
+      background: var(--dark); color: #F0EDE6;
+      padding: 28px 32px; margin-top: 16px;
+    }
+    .dark .contact-block { background: #0d0d0d; }
+
+    /* Button */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; background: var(--accent); color: #fff;
+      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+      font-weight: 600; border: none; cursor: pointer; text-decoration: none;
+      transition: all 0.25s;
+    }
+    .btn-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
+    /* Footer */
+    .site-footer { background: #111; color: #6b6560; padding: 28px 24px; text-align: center; }
+    .dark .site-footer { background: #0a0a0a; }
+
+    /* Animations */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+    [data-fade] { opacity: 0; }
+    [data-fade].visible { animation: fadeUp 0.5s ease forwards; }
+
+    /* Scroll progress */
+    #scroll-progress {
+      position: fixed; top: 0; left: 0; height: 2px;
+      background: var(--accent); z-index: 9999; width: 0%; transition: width 0.1s;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="scroll-progress"></div>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2 text-sm" style="color:#8B8475;">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        <span class="hidden sm:inline" style="letter-spacing:0.08em; text-transform:uppercase; font-size:0.7rem;">Back to Shop</span>
+      </a>
+      <a href="index.html" class="font-serif text-xl font-light tracking-widest" style="letter-spacing:0.2em; color:var(--dark);">EVNIKA</a>
+      <button id="theme-btn" style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:#8B8475;cursor:pointer;border:none;background:transparent;" aria-label="Toggle theme">
+        <svg id="sun-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" class="hidden"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg id="moon-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO BANNER -->
+  <div class="policy-hero">
+    <div style="position:relative; z-index:1;">
+      <p style="font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin-bottom:10px;">Legal & Policies</p>
+      <h1 class="font-serif" style="font-size:clamp(2rem,5vw,3.5rem); font-weight:300; color:#fff; margin-bottom:12px;">Store Policies</h1>
+      <p style="color:rgba(240,237,230,0.5); font-size:0.82rem; max-width:460px; margin:0 auto; line-height:1.7;">
+        Transparent, fair, and written in plain language. Everything you need to know about shopping with us.
+      </p>
+      <div style="margin-top:20px; display:flex; justify-content:center; gap:16px; flex-wrap:wrap;">
+        <a href="tel:+918590895582" style="font-size:0.72rem; color:var(--accent); letter-spacing:0.06em;">📞 +91 8590895582</a>
+        <span style="color:rgba(255,255,255,0.2);">|</span>
+        <a href="mailto:psree97palagatt@gmail.com" style="font-size:0.72rem; color:var(--accent); letter-spacing:0.06em;">✉️ psree97palagatt@gmail.com</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAYOUT -->
+  <div class="policy-layout">
+
+    <!-- SIDEBAR TOC -->
+    <aside class="toc-sidebar">
+      <p class="toc-label">Contents</p>
+      <a href="#section-a" class="toc-link">A. Shipping & Returns</a>
+      <a href="#section-b" class="toc-link">B. Refund Policy</a>
+      <a href="#section-c" class="toc-link">C. Privacy Policy</a>
+      <a href="#section-d" class="toc-link">D. Payment & Security</a>
+      <a href="#section-e" class="toc-link">E. Order Processing</a>
+      <a href="#section-f" class="toc-link">F. Intellectual Property</a>
+      <a href="#section-g" class="toc-link">G. Limitation of Liability</a>
+      <a href="#section-h" class="toc-link">H. Governing Law</a>
+      <a href="#section-i" class="toc-link">I. Contact & Disputes</a>
+      <a href="#section-j" class="toc-link">J. Policy Updates</a>
+
+      <div style="margin-top:28px; padding-top:20px; border-top:1px solid rgba(201,169,110,0.15);">
+        <p style="font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; font-weight:600; color:var(--accent); margin-bottom:10px;">Need Help?</p>
+        <a href="tel:+918590895582" style="display:block; font-size:0.78rem; color:#8B8475; padding:5px 0; transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='#8B8475'">+91 8590895582</a>
+        <a href="mailto:psree97palagatt@gmail.com" style="display:block; font-size:0.78rem; color:#8B8475; padding:5px 0; transition:color 0.2s; word-break:break-all;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='#8B8475'">psree97palagatt@gmail.com</a>
+        <p style="font-size:0.75rem; color:#8B8475; margin-top:5px;">Bangalore, Karnataka 560100</p>
+      </div>
+    </aside>
+
+    <!-- CONTENT -->
+    <main>
+
+      <!-- Mobile TOC -->
+      <details class="mobile-toc">
+        <summary>Table of Contents</summary>
+        <div class="mobile-toc-links">
+          <a href="#section-a" class="toc-link">A. Shipping & Returns</a>
+          <a href="#section-b" class="toc-link">B. Refund Policy</a>
+          <a href="#section-c" class="toc-link">C. Privacy Policy</a>
+          <a href="#section-d" class="toc-link">D. Payment & Security</a>
+          <a href="#section-e" class="toc-link">E. Order Processing</a>
+          <a href="#section-f" class="toc-link">F. Intellectual Property</a>
+          <a href="#section-g" class="toc-link">G. Limitation of Liability</a>
+          <a href="#section-h" class="toc-link">H. Governing Law</a>
+          <a href="#section-i" class="toc-link">I. Contact & Disputes</a>
+          <a href="#section-j" class="toc-link">J. Policy Updates</a>
+        </div>
+      </details>
+
+      <!-- A: Shipping & Returns -->
+      <section class="policy-section" id="section-a" data-fade>
+        <div class="policy-section-header">
+          <div class="section-letter">A</div>
+          <h2>Shipping &amp; Returns — <em>No Return Policy</em></h2>
+        </div>
+
+        <div class="info-card">
+          📦 <strong>Summary:</strong> EVNIKA Store maintains a <strong>No Return Policy</strong> for most inventory. Once delivered and accepted, returns are not accepted except in specific circumstances listed below. Please review product details carefully before ordering.
+        </div>
+
+        <h3>A.2 Scope</h3>
+        <p>This policy applies to all standard retail purchases on our website. It covers all product categories unless explicitly marked "eligible for returns" on the product page. This includes intimate apparel, personalised items, perishable goods, and clearance items.</p>
+
+        <h3>A.3 Limited Exceptions</h3>
+        <p>We accept returns or exchanges in these limited cases:</p>
+        <ol>
+          <li>Manufacturing defects reported within <strong>7 calendar days</strong> of delivery.</li>
+          <li>Wrong item shipped (different SKU than ordered).</li>
+          <li>Item damaged in transit (visible damage upon delivery).</li>
+          <li>Items covered by an explicit seller or brand warranty including return rights.</li>
+        </ol>
+        <p>To request a return under these exceptions, contact <a href="mailto:psree97palagatt@gmail.com">psree97palagatt@gmail.com</a> within the stated timeframe with required documentation.</p>
+
+        <h3>A.4 Required Documentation</h3>
+        <ol>
+          <li>Your order number and date of purchase.</li>
+          <li>Name and phone number used for the order.</li>
+          <li>Description of the issue and resolution requested.</li>
+          <li>At least two clear photographs of the problem and the shipping label (if damaged).</li>
+        </ol>
+
+        <h3>A.5 Inspection & Approval</h3>
+        <p>Upon receipt of your claim, we may ask you to ship the item back for inspection. We'll provide a prepaid label only when the return is due to our error. Otherwise, return shipping costs may be deducted from any refund.</p>
+
+        <h3>A.6 Timeline</h3>
+        <p>We acknowledge claims within <strong>3 business days</strong> and complete inspections within <strong>10 business days</strong>.</p>
+
+        <h3>A.7 Refunds & Exchanges</h3>
+        <p>If approved, refunds are processed within <strong>7–14 business days</strong> of receiving returned goods. Refund amounts may be reduced by restocking or handling fees disclosed during the approval process.</p>
+
+        <h3>A.8 Non-Refundable Items</h3>
+        <p>Even when a return is accepted, the following are non-refundable: final sale items, items missing original packaging, washed or used items, items with tampered seals, and gift cards.</p>
+
+        <h3>A.9 Cancellation Policy</h3>
+        <p>You may cancel within <strong>1 hour</strong> of placing an order. After that window, orders in fulfillment cannot be cancelled and are subject to the No Return Policy unless an exception applies.</p>
+      </section>
+
+      <!-- B: Refund Policy -->
+      <section class="policy-section" id="section-b" data-fade>
+        <div class="policy-section-header">
+          <div class="section-letter">B</div>
+          <h2>Refund Policy</h2>
+        </div>
+
+        <h3>B.1 When Refunds Are Issued</h3>
+        <p>Refunds are only issued when a return is approved under the limited exceptions above, or if we are unable to deliver the goods. Refunds may be issued as:</p>
+        <ul>
+          <li>Credit to the original payment method (preferred)</li>
+          <li>Store credit or gift voucher (only with customer consent)</li>
+          <li>Replacement item (exchange) where appropriate</li>
+        </ul>
+
+        <h3>B.2 Refund Calculation</h3>
+        <p>Refunds reflect the item price paid, minus any applicable deductions such as shipping fees, restocking charges, or handling costs that were disclosed during the return approval process.</p>
+
+        <h3>B.3 Processing Time</h3>
+        <p>Once approved, refunds are initiated within 7–14 business days. The time to reflect in your account depends on your bank or payment processor.</p>
+      </section>
+
+      <!-- C: Privacy Policy -->
+      <section class="policy-section" id="section-c" data-fade>
+        <div class="policy-section-header">
+          <div class="section-letter">C</div>
+          <h2>Privacy Policy</h2>
+        </div>
+
+        <h3>C.1 Information We Collect</h3>
+        <p>We collect personal information you provide directly (name, email, phone, delivery address) and data collected automatically during your visit (device info, IP address, browsing behaviour via analytics tools).</p>
+
+        <h3>C.2 How We Use Your Information</h3>
+        <p>We use collected data to process orders, communicate about your purchases, improve our website, send marketing communications (with your consent), and comply with legal obligations.</p>
+
+        <h3>C.3 Data Sharing</h3>
+        <p>We do not sell your personal data. We share data only with trusted third-party service providers (payment processors, shipping partners, email tools) who are contractually bound to protect it.</p>
+
+        <h3>C.4 Cookies</h3>
+        <p>We use cookies for functionality (cart, preferences) and analytics. You may disable cookies via your browser settings, though some features may be affected.</p>
+
+        <h3>C.5 Data Retention</h3>
+        <p>We retain transactional records for a minimum of 6 years for accounting and legal compliance, or longer if required by law.</p>
+
+        <h3>C.6 Your Rights</h3>
+        <p>Depending on your jurisdiction, you may have rights including access, correction, deletion, restriction, and portability. Contact <a href="mailto:psree97palagatt@gmail.com">psree97palagatt@gmail.com</a> to exercise these rights.</p>
+
+        <h3>C.7 Children</h3>
+        <p>Our services are not directed at children under 13. If you believe we have inadvertently collected such data, contact us immediately.</p>
+      </section>
+
+      <!-- D: Payment -->
+      <section class="policy-section" id="section-d" data-fade>
+        <div class="policy-section-header">
+          <div class="section-letter">D</div>
+          <h2>Payment &amp; Security</h2>
+        </div>
+
+        <h3>D.1 Payment Processing</h3>
+        <p>We use Razorpay to process card and UPI transactions. Payment credentials are transmitted directly to the payment processor and are never stored in plaintext on our servers.</p>
+
+        <h3>D.2 Security Practices</h3>
+        <p>We follow industry standards including TLS encryption for data in transit and reasonable administrative, physical, and technical safeguards. No online system is 100% secure — we recommend using strong, unique passwords.</p>
+
+        <h3>D.3 Fraud Prevention</h3>
+        <p>We monitor transactions for signs of fraud and may delay or block orders for manual review. Additional verification documentation may be required for large or suspicious orders.</p>
+      </section>
+
+      <!-- E: Order Processing -->
+      <section class="policy-section" id="section-e" data-fade>
+        <div class="policy-section-header">
+          <div class="section-letter">E</div>
+          <h2>Order Processing &amp; Delivery</h2>
+        </div>
+
+        <h3>E.1 Order Acceptance</h3>
+        <p>An order becomes binding only when we confirm acceptance and payment is authorized. We may refuse or cancel orders for reasons including stock unavailability, pricing errors, or suspected fraud.</p>
+
+        <h3>E.2 Shipping & Timeframes</h3>
+        <p>Estimated timelines are provided at checkout but are not guaranteed. Delays caused by carriers, customs, or force majeure events are outside our control.</p>
+
+        <h3>E.3 International Shipping</h3>
+        <p>For international shipments, customers are responsible for customs duties, import taxes, and fees. Delivery time varies by country.</p>
+
+        <h3>E.4 Lost or Damaged Shipments</h3>
+        <p>Report lost or damaged shipments immediately. If a package is marked delivered but not received, we will assist with the carrier investigation.</p>
+      </section>
+
+      <!-- F -->
+      <section class="policy-section" id="section-f" data-fade>
+        <div class="policy-section-header">
+          <div class="section-letter">F</div>
+          <h2>Intellectual Property &amp; User Content</h2>
+        </div>
+
+        <h3>F.1 Our Content</h3>
+        <p>All content on our site (text, images, logos, designs) is owned or licensed by us and protected by copyright and trademark laws. You may not copy, reproduce, or distribute any content without our written permission.</p>
+
+        <h3>F.2 User Submissions</h3>
+        <p>When you post reviews or other content, you grant us a non-exclusive, worldwide, royalty-free license to use, reproduce, modify, and display that content in connection with operating the business.</p>
+
+        <h3>F.3 DMCA & Takedown</h3>
+        <p>If you believe your copyrighted work has been used improperly, contact us with a detailed takedown request. We will respond under applicable procedures.</p>
+      </section>
+
+      <!-- G -->
+      <section class="policy-section" id="section-g" data-fade>
+        <div class="policy-section-header">
+          <div class="section-letter">G</div>
+          <h2>Limitation of Liability &amp; Disclaimers</h2>
+        </div>
+
+        <p>To the maximum extent permitted by law, our liability is limited to the total amount paid by you for the relevant goods or services. We are not liable for indirect, incidental, special, punitive, or consequential damages.</p>
+
+        <h3>G.1 No Warranty</h3>
+        <p>The site and services are provided "as is" and "as available". We disclaim all warranties to the extent permitted by law.</p>
+
+        <h3>G.2 Force Majeure</h3>
+        <p>We are not liable for delays or failures caused by events beyond our reasonable control, including natural disasters, strikes, or carrier failures.</p>
+
+        <h3>G.3 Consumer Rights</h3>
+        <p>These limitations do not affect your statutory consumer rights where such rights cannot be disclaimed under applicable law.</p>
+      </section>
+
+      <!-- H -->
+      <section class="policy-section" id="section-h" data-fade>
+        <div class="policy-section-header">
+          <div class="section-letter">H</div>
+          <h2>Indemnification &amp; Governing Law</h2>
+        </div>
+
+        <h3>H.1 Indemnity</h3>
+        <p>You agree to indemnify and hold us harmless from claims, liabilities, losses, and expenses (including reasonable attorney fees) arising from your breach of these policies or misuse of the site.</p>
+
+        <h3>H.2 Governing Law</h3>
+        <p>These policies are governed by the laws of India. Any dispute will be subject to the exclusive jurisdiction of courts in Bangalore, Karnataka, unless otherwise required by law.</p>
+      </section>
+
+      <!-- I -->
+      <section class="policy-section" id="section-i" data-fade>
+        <div class="policy-section-header">
+          <div class="section-letter">I</div>
+          <h2>Contact &amp; Dispute Resolution</h2>
+        </div>
+
+        <div class="contact-block">
+          <p style="font-size:0.62rem; letter-spacing:0.18em; text-transform:uppercase; font-weight:700; color:var(--accent); margin-bottom:14px;">Get in Touch</p>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px,1fr)); gap:16px;">
+            <div>
+              <p style="font-size:0.65rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(240,237,230,0.4); margin-bottom:5px;">Phone</p>
+              <a href="tel:+918590895582" style="color:#F0EDE6; font-size:0.9rem; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='#F0EDE6'">+91 8590895582</a>
+            </div>
+            <div>
+              <p style="font-size:0.65rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(240,237,230,0.4); margin-bottom:5px;">Email</p>
+              <a href="mailto:psree97palagatt@gmail.com" style="color:#F0EDE6; font-size:0.85rem; text-decoration:none; word-break:break-all; transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='#F0EDE6'">psree97palagatt@gmail.com</a>
+            </div>
+            <div>
+              <p style="font-size:0.65rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(240,237,230,0.4); margin-bottom:5px;">Address</p>
+              <p style="color:#F0EDE6; font-size:0.85rem;">Bangalore, Karnataka, India 560100</p>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="margin-top:20px;">I.1 Escalation</h3>
+        <p>If you are not satisfied with the initial response, request escalation via email. We will assign a senior representative. If resolution is not possible, you may pursue legal remedies under Governing Law.</p>
+      </section>
+
+      <!-- J -->
+      <section class="policy-section" id="section-j" data-fade>
+        <div class="policy-section-header">
+          <div class="section-letter">J</div>
+          <h2>Policy Updates</h2>
+        </div>
+
+        <p>We may update these policies from time to time to reflect legal requirements or operational changes. The effective date appears at the top of this page. We will post revised policies here and may provide notice through other channels.</p>
+
+        <h3>J.1 Effective Date</h3>
+        <p>This policy is effective as of the date it was published on this page.</p>
+
+        <div style="margin-top:24px; padding-top:20px; border-top:1px solid rgba(201,169,110,0.15); display:flex; flex-wrap:wrap; gap:12px; align-items:center;">
+          <a href="index.html" class="btn-primary">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+            Back to Store
+          </a>
+          <a href="mailto:@gmail.com" style="font-size:0.72rem; color:#8B8475; text-decoration:none; letter-spacing:0.06em; transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='#8B8475'">
+            Need a printable copy? Contact us →
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div style="max-width:600px; margin:0 auto;">
+      <a href="index.html" class="font-serif" style="font-size:1.2rem; letter-spacing:0.2em; color:#9a9088; display:block; margin-bottom:10px;">EVNIKA</a>
+      <p style="font-size:0.72rem; margin-bottom:8px;">&copy; 2025 EVNIKA. All rights reserved.</p>
+      <p style="font-size:0.72rem;">
+        <a href="index.html" style="color:var(--accent);">Home</a> &nbsp;·&nbsp;
+        <a href="mailto:psree97palagatt@gmail.com" style="color:var(--accent);">Contact</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // ── THEME ──
+    const themeBtn = document.getElementById('theme-btn');
+    const sunIcon = document.getElementById('sun-icon');
+    const moonIcon = document.getElementById('moon-icon');
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      document.documentElement.classList.add('dark');
+      sunIcon.classList.remove('hidden'); moonIcon.classList.add('hidden');
+    }
+    themeBtn.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      isDark ? (sunIcon.classList.remove('hidden'), moonIcon.classList.add('hidden'))
+             : (moonIcon.classList.remove('hidden'), sunIcon.classList.add('hidden'));
+    });
+
+    // ── SCROLL PROGRESS ──
+    const progressBar = document.getElementById('scroll-progress');
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      const total = document.body.scrollHeight - window.innerHeight;
+      progressBar.style.width = `${(scrolled / total) * 100}%`;
+    });
+
+    // ── ACTIVE TOC ──
+    const sections = document.querySelectorAll('.policy-section');
+    const tocLinks = document.querySelectorAll('.toc-link');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          tocLinks.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector(`.toc-link[href="#${e.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -60% 0px' });
+    sections.forEach(s => observer.observe(s));
+
+    // ── FADE IN ──
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); fadeObserver.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('[data-fade]').forEach(el => fadeObserver.observe(el));
+  </script>
+</body>
+</html>
