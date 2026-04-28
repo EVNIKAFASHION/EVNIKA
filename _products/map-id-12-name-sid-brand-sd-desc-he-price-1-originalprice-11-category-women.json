@@ -5,5 +5,8 @@
   "desc": "he",
   "price": 1,
   "originalPrice": 11,
-  "category": "women"
+  "category": "women",
+  "images": [
+    "images/1769395400785.jpg"
+  ]
 }
