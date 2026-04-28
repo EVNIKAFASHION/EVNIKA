@@ -1893,25 +1893,25 @@
           },
         ];
 
-        // ── CMS PRODUCTS (fetched from _products/) ─────────────
-fetch("_products/index.json")
+// ── CMS PRODUCTS (auto-loaded from _products/) ─────────
+fetch("/.netlify/functions/build-product-index")
+  .then(() => fetch("_products/index.json"))
   .then((res) => res.json())
-  .then((list) => {
-    return Promise.all(list.map((name) => fetch(`_products/${name}`).then((r) => r.json())));
-  })
+  .then((list) => Promise.all(
+    list.map((name) => fetch(`_products/${name}`).then((r) => r.json()))
+  ))
   .then((cmsProducts) => {
-    if (cmsProducts.length) {
-      // Normalize images field (CMS saves as [{url:"..."}], site needs ["..."])
-      const normalized = cmsProducts.map((p) => ({
-        ...p,
-        images: Array.isArray(p.images)
-          ? p.images.map((img) => (typeof img === "object" ? img.url : img))
-          : [],
-      }));
-      products.push(...normalized);
-      renderProducts();
-      updateCounts();
-    }
+    if (!cmsProducts.length) return;
+    const normalized = cmsProducts.map((p) => ({
+      ...p,
+      id: p.id || Date.now() + Math.random(),
+      images: Array.isArray(p.images)
+        ? p.images.map((img) => typeof img === "object" ? img.url : img)
+        : [],
+    }));
+    products.push(...normalized);
+    renderProducts();
+    updateCounts();
   })
   .catch(() => {});
 
