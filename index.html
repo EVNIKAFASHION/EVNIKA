@@ -1893,19 +1893,27 @@
           },
         ];
 
-        // ── CMS PRODUCTS (merged from products.json) ───────────
-        fetch("products.json")
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.products && data.products.length) {
-              products.push(...data.products);
-              renderProducts();
-              updateCounts();
-            }
-          })
-          .catch(() => {
-            // No CMS products yet — hardcoded ones still show fine
-          });
+        // ── CMS PRODUCTS (fetched from _products/) ─────────────
+fetch("_products/index.json")
+  .then((res) => res.json())
+  .then((list) => {
+    return Promise.all(list.map((name) => fetch(`_products/${name}`).then((r) => r.json())));
+  })
+  .then((cmsProducts) => {
+    if (cmsProducts.length) {
+      // Normalize images field (CMS saves as [{url:"..."}], site needs ["..."])
+      const normalized = cmsProducts.map((p) => ({
+        ...p,
+        images: Array.isArray(p.images)
+          ? p.images.map((img) => (typeof img === "object" ? img.url : img))
+          : [],
+      }));
+      products.push(...normalized);
+      renderProducts();
+      updateCounts();
+    }
+  })
+  .catch(() => {});
 
         // ── STATE ──────────────────────────────────────────────
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
