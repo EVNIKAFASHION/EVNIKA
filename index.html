@@ -1779,7 +1779,7 @@
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         // ── PRODUCTS DATA ──────────────────────────────────────
-        const products = [
+        let products = [
           {
             id: 1,
             name: "Meenakshi -Kanchi Cotton | Korvai Checks",
@@ -1891,6 +1891,20 @@
             images: ["img11.png", 'img11-1.jpg'],
           },
         ];
+
+        // ── CMS PRODUCTS (merged from products.json) ───────────
+        fetch("products.json")
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.products && data.products.length) {
+              products.push(...data.products);
+              renderProducts();
+              updateCounts();
+            }
+          })
+          .catch(() => {
+            // No CMS products yet — hardcoded ones still show fine
+          });
 
         // ── STATE ──────────────────────────────────────────────
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
