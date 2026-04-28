@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: YOUR-GITHUB-USERNAME/YOUR-REPO-NAME   # e.g. john/evnika-store
+  repo: EVNIKAFASHION/EVNIKA   # e.g. john/evnika-store
   branch: main
 
 media_folder: "images"
