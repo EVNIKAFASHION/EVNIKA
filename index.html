@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en" class="light">
   <head>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>EVNIKA — Premium Apparel</title>
@@ -1780,7 +1779,7 @@
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         // ── PRODUCTS DATA ──────────────────────────────────────
-        let products = [
+        const products = [
           {
             id: 1,
             name: "Meenakshi -Kanchi Cotton | Korvai Checks",
@@ -1892,26 +1891,6 @@
             images: ["img11.png", 'img11-1.jpg'],
           },
         ];
-
-fetch("_products/index.json")
-  .then((res) => res.json())
-  .then((list) => Promise.all(
-    list.map((name) => fetch(`_products/${name}`).then((r) => r.json()))
-  ))
-  .then((cmsProducts) => {
-    if (!cmsProducts.length) return;
-    const normalized = cmsProducts.map((p) => ({
-      ...p,
-      id: p.id || Date.now() + Math.random(),
-      images: Array.isArray(p.images)
-        ? p.images.map((img) => typeof img === "object" ? img.url : img)
-        : [],
-    }));
-    products.push(...normalized);
-    renderProducts();
-    updateCounts();
-  })
-  .catch(() => {});
 
         // ── STATE ──────────────────────────────────────────────
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
