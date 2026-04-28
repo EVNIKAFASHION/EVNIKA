@@ -1,8 +1,7 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: EVNIKAFASHION/EVNIKA   # e.g. john/evnika-store
   branch: main
-
-publish_mode: editorial_workflow
 
 media_folder: "images"
 public_folder: "/images"
