@@ -1,0 +1,17 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Product Name",
+      "brand": "Brand Name",
+      "desc": "Product description here.",
+      "price": 1999,
+      "originalPrice": 2499,
+      "category": "women",
+      "badge": "New",
+      "images": [
+        "https://your-image-url.com/image1.jpg"
+      ]
+    }
+  ]
+}
