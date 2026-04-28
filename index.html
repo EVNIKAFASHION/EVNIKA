@@ -2240,16 +2240,19 @@
         addAllBtn.addEventListener("click", () => {
           wishlist.forEach((id) => addToCart(id, 1));
           openPanel(cartPanel);
-          closePanel(wishlistPanel);
+          closePanel(wishlistPanel, true);
         });
 
         // ── PANELS ────────────────────────────────────────────
         function openPanel(panel) {
+          const panelName = panel === cartPanel ? "cart" : "wishlist";
           panel.classList.add("open");
           panelOverlay.classList.add("open");
           document.body.classList.add("no-scroll");
+          history.pushState({ panel: panelName }, "");
         }
-        function closePanel(panel) {
+        function closePanel(panel, silent = false) {
+          const wasOpen = panel.classList.contains("open");
           panel.classList.remove("open");
           if (
             !cartPanel.classList.contains("open") &&
@@ -2258,6 +2261,7 @@
             panelOverlay.classList.remove("open");
             document.body.classList.remove("no-scroll");
           }
+          if (!silent && wasOpen && history.state && history.state.panel) history.back();
         }
         cartBtn.addEventListener("click", () => {
           renderCart();
@@ -2314,6 +2318,7 @@
             : "♡ Add to Wishlist";
           modalOverlay.classList.add("open");
           document.body.classList.add("no-scroll");
+          history.pushState({ modal: true, productId: id }, "");
         }
 
         function setModalImg(i) {
@@ -2343,8 +2348,11 @@
         }
 
         function closeModal() {
-          modalOverlay.classList.remove("open");
-          document.body.classList.remove("no-scroll");
+          if (modalOverlay.classList.contains("open")) {
+            modalOverlay.classList.remove("open");
+            document.body.classList.remove("no-scroll");
+            if (history.state && history.state.modal) history.back();
+          }
         }
         modalClose.addEventListener("click", closeModal);
         modalOverlay.addEventListener("click", (e) => {
@@ -2443,6 +2451,22 @@
         document
           .querySelectorAll("[data-fade]")
           .forEach((el) => observer.observe(el));
+
+        // ── BACK BUTTON (mobile) ──────────────────────────────
+        window.addEventListener("popstate", (e) => {
+          if (modalOverlay.classList.contains("open")) {
+            modalOverlay.classList.remove("open");
+            document.body.classList.remove("no-scroll");
+          } else if (cartPanel.classList.contains("open")) {
+            cartPanel.classList.remove("open");
+            panelOverlay.classList.remove("open");
+            document.body.classList.remove("no-scroll");
+          } else if (wishlistPanel.classList.contains("open")) {
+            wishlistPanel.classList.remove("open");
+            panelOverlay.classList.remove("open");
+            document.body.classList.remove("no-scroll");
+          }
+        });
 
         // ── KEYBOARD ──────────────────────────────────────────
         document.addEventListener("keydown", (e) => {
