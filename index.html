@@ -1894,8 +1894,7 @@
         ];
 
 // ── CMS PRODUCTS (auto-loaded from _products/) ─────────
-fetch("/.netlify/functions/build-product-index")
-  .then(() => fetch("_products/index.json"))
+fetch("_products/index.json")
   .then((res) => res.json())
   .then((list) => Promise.all(
     list.map((name) => fetch(`_products/${name}`).then((r) => r.json()))
