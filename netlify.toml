@@ -1,0 +1,9 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[[plugins]]
+  package = "@netlify/plugin-functions-install-deps"
+
+[context.production]
+  environment = { NODE_VERSION = "18" }
