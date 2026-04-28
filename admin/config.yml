@@ -1,5 +1,5 @@
 backend:
-  name: github
+  name: git-gateway
   repo: EVNIKAFASHION/EVNIKA   # e.g. john/evnika-store
   branch: main
 
