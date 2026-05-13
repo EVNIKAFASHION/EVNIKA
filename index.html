@@ -2181,15 +2181,6 @@
           ]);
         }
 
-        function ensureMobileBackStop() {
-          try {
-            const key = "evnika_backstop_added_v1";
-            if (sessionStorage.getItem(key) === "1") return;
-            history.pushState({ backStop: true }, "");
-            sessionStorage.setItem(key, "1");
-          } catch (_) {}
-        }
-
         function pushOverlayState(state) {
           history.pushState({ ...(state || {}), __evnikaOverlay: true }, "");
           overlayHistoryDepth++;
@@ -2874,7 +2865,10 @@
         // ── BACK BUTTON (mobile) ──────────────────────────────
         window.addEventListener("popstate", () => {
           if (overlayHistoryDepth > 0) overlayHistoryDepth--;
-          closeOverlaysWithoutHistory();
+          const closedAny = closeOverlaysWithoutHistory();
+          if (closedAny) {
+            setTimeout(() => window.scrollTo(0, modalScrollY), 0);
+          }
         });
 
         // ── KEYBOARD ──────────────────────────────────────────
@@ -2898,7 +2892,9 @@
         );
 
         // ── INIT — render hardcoded products immediately ───────
-        ensureMobileBackStop();
+        if ("scrollRestoration" in history) {
+          history.scrollRestoration = "manual";
+        }
         renderProducts();
         updateCounts();
 
