@@ -2186,6 +2186,10 @@
           overlayHistoryDepth++;
         }
 
+        function isProductHashActive() {
+          return /^#product-\d+$/i.test(window.location.hash || "");
+        }
+
         function closeTopOverlayWithoutHistory() {
           if (zoomOverlay.classList.contains("open")) {
             closeZoomViewer();
@@ -2647,7 +2651,12 @@
           modalOverlay.classList.add("open");
           document.body.classList.add("no-scroll");
           modalScrollY = window.scrollY || window.pageYOffset || 0;
-          pushOverlayState({ modal: true, productId: id });
+          history.pushState(
+            { modal: true, productId: id, __evnikaOverlay: true },
+            "",
+            `#product-${id}`,
+          );
+          overlayHistoryDepth++;
         }
 
         function setModalImg(i) {
@@ -2685,7 +2694,7 @@
             modalOverlay.classList.remove("open");
             document.body.classList.remove("no-scroll");
             window.scrollTo(0, modalScrollY);
-            if (overlayHistoryDepth > 0) history.back();
+            if (overlayHistoryDepth > 0 || isProductHashActive()) history.back();
           }
         }
         modalClose.addEventListener("click", closeModal);
