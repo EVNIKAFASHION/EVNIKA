@@ -2192,7 +2192,7 @@
 
         function closeTopOverlayWithoutHistory() {
           if (zoomOverlay.classList.contains("open")) {
-            closeZoomViewer();
+            closeZoomViewer(true);
             return true;
           }
           if (modalOverlay.classList.contains("open")) {
@@ -2241,11 +2241,14 @@
           setZoom(1);
           zoomOverlay.classList.add("open");
           zoomOverlay.setAttribute("aria-hidden", "false");
+          history.pushState({ zoom: true, __evnikaOverlay: true }, "", "#zoom");
+          overlayHistoryDepth++;
         }
-        function closeZoomViewer() {
+        function closeZoomViewer(silent = false) {
           zoomOverlay.classList.remove("open");
           zoomOverlay.setAttribute("aria-hidden", "true");
           zoomImage.src = "";
+          if (!silent && overlayHistoryDepth > 0) history.back();
         }
 
         // ── THEME ──────────────────────────────────────────────
