@@ -1008,15 +1008,9 @@
         </svg>
       </button>
       <a href="#top" class="mobile-nav-link" onclick="closeMobileNav()">Home</a>
-      <a href="#products" class="mobile-nav-link" onclick="closeMobileNav()"
-        >Shop</a
-      >
-      <a href="#about" class="mobile-nav-link" onclick="closeMobileNav()"
-        >About</a
-      >
-      <a href="#contact" class="mobile-nav-link" onclick="closeMobileNav()"
-        >Contact</a
-      >
+      <a href="#products" class="mobile-nav-link" onclick="closeMobileNav()">Shop</a>
+      <a href="#about" class="mobile-nav-link" onclick="closeMobileNav()">About</a>
+      <a href="#contact" class="mobile-nav-link" onclick="closeMobileNav()">Contact</a>
       <div class="mt-auto pt-8">
         <p
           class="text-xs tracking-widest uppercase text-muted mb-3"
@@ -1294,16 +1288,6 @@
 
           <div id="product-grid"></div>
 
-          <div class="text-center mt-10 sm:mt-14" data-fade>
-            <button
-              id="load-more-btn"
-              class="btn-outline"
-              type="button"
-              style="margin: 0 auto"
-            >
-              Load More
-            </button>
-          </div>
         </div>
       </section>
 
@@ -1327,7 +1311,6 @@
                 style="height: 100%; width: auto"
                 alt="Sustainable Fashion"
                 class="about-img"
-                style="position: absolute; inset: 0"
                 loading="lazy"
               />
               <div
@@ -1520,7 +1503,7 @@
                   href="policy.html#shipping-returns"
                   class="footer-link"
                   style="color: #6b6560"
-                  >Shipping & Returns</a
+                  >Shipping &amp; Returns</a
                 >
               </li>
             </ul>
@@ -1624,7 +1607,7 @@
           <span
             id="cart-subtotal"
             style="
-              font-family: &quot;Cormorant Garamond&quot;, serif;
+              font-family: 'Cormorant Garamond', serif;
               font-size: 1.3rem;
               color: var(--dark);
             "
@@ -1778,8 +1761,16 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        // ── PRODUCTS DATA ──────────────────────────────────────
-        const products = [
+
+        // ══════════════════════════════════════════════════════════
+        //  APPS SCRIPT INTEGRATION
+        //  ▼▼▼ Paste your Apps Script Web App URL between the quotes ▼▼▼
+        const APPS_SCRIPT_URL_FALLBACK = "https://script.google.com/macros/s/AKfycbyq3qvvpkd_3NNDq8fP9RyCac273o7KYz7DcLoF4UnU46lt0q39W4DA9Dp0yG9G5YNJ/exec";
+        const APPS_SCRIPT_URL = localStorage.getItem("evnika_apps_script_url") || APPS_SCRIPT_URL_FALLBACK;
+        // ══════════════════════════════════════════════════════════
+
+        // ── HARDCODED PRODUCTS (your original 11 — do not remove) ──
+        const hardcodedProducts = [
           {
             id: 1,
             name: "Meenakshi -Kanchi Cotton | Korvai Checks",
@@ -1828,7 +1819,7 @@
             originalPrice: 3499,
             category: "sarees",
             desc: "Step into elegance with our ItalianSilk Sarees - a Trending Collection known for its flowy and shiny drape. Featuring a soft finish with all-over Small Subtle Zari Lines & Printed Drop dot Design and a subtle small Viscose zari border, this saree is perfect for everyday elegance, office wear, functions, and casual gatherings.",
-            images: ["img6-1.png", 'img6.webp'],
+            images: ["img6-1.png", "img6.webp"],
           },
           {
             id: 6,
@@ -1838,7 +1829,7 @@
             originalPrice: 2499,
             category: "sarees",
             desc: "The Set Mundu (also known as Mundum Neriyathum) is the traditional two-piece attire worn by women in Kerala. It is widely considered the oldest form of the saree, consisting of a lower garment (Mundu) and an upper drape (Neriyathu).",
-            images: ["img5.jpeg", 'img5-1.jpeg'],
+            images: ["img5.jpeg", "img5-1.jpeg"],
           },
           {
             id: 7,
@@ -1848,7 +1839,7 @@
             originalPrice: 2499,
             category: "sarees",
             desc: "The Set Mundu (also known as Mundum Neriyathum) is the traditional two-piece attire worn by women in Kerala. It is widely considered the oldest form of the saree, consisting of a lower garment (Mundu) and an upper drape (Neriyathu).",
-            images: ["img7.jpg", 'img7-1.jpeg'],
+            images: ["img7.jpg", "img7-1.jpeg"],
           },
           {
             id: 8,
@@ -1858,7 +1849,7 @@
             originalPrice: 2499,
             category: "sarees",
             desc: "The Set Mundu (also known as Mundum Neriyathum) is the traditional two-piece attire worn by women in Kerala. It is widely considered the oldest form of the saree, consisting of a lower garment (Mundu) and an upper drape (Neriyathu).",
-            images: ["img8.jpg", 'img8-1.jpeg'],
+            images: ["img8.jpg", "img8-1.jpeg"],
           },
           {
             id: 9,
@@ -1868,7 +1859,7 @@
             originalPrice: 3499,
             category: "sarees",
             desc: "Step into elegance with our Italian Silk Sarees — a Trending Collection known for its flowy and shiny drape. Featuring a soft finish with all-over  Small Subtle Zari Lines & Printed Drop dot  Design and a subtle small Viscose zari border, this saree is perfect for everyday elegance, office wear, functions, and casual gatherings.",
-            images: ["img9.jpeg", 'img9-1.webp'],
+            images: ["img9.jpeg", "img9-1.webp"],
           },
           {
             id: 10,
@@ -1878,7 +1869,7 @@
             originalPrice: 3499,
             category: "sarees",
             desc: "Step into elegance with our Italian Silk Sarees — a Trending Collection known for its flowy and shiny drape. Featuring a soft finish with all-over  Small Subtle Zari Lines & Printed Drop dot  Design and a subtle small Viscose zari border, this saree is perfect for everyday elegance, office wear, functions, and casual gatherings.",
-            images: ["img10.jpeg", 'img10-1.webp', 'img10-2.webp', 'img10-3.webp'],
+            images: ["img10.jpeg", "img10-1.webp", "img10-2.webp", "img10-3.webp"],
           },
           {
             id: 11,
@@ -1888,9 +1879,12 @@
             originalPrice: 3499,
             category: "sarees",
             desc: "Kalyani cotton sarees are traditional handloom drapes originating from Tamil Nadu, highly valued for their breathable, lightweight texture and soft feel. These sarees typically feature a blend of fine cotton and acrylic or silk yarns, giving them a subtle luster and a graceful drape similar to silk-cotton.",
-            images: ["img11.png", 'img11-1.jpg'],
+            images: ["img11.png", "img11-1.jpg"],
           },
         ];
+
+        // ── PRODUCTS ARRAY (starts with hardcoded, sheet products appended later) ──
+        let products = [...hardcodedProducts];
 
         // ── STATE ──────────────────────────────────────────────
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -1901,12 +1895,9 @@
         let modalImages = [];
         let modalIndex = 0;
         let modalQty = 1;
-        const PRODUCTS_PER_LOAD = 4;
-        let visibleCount = PRODUCTS_PER_LOAD;
 
         // ── DOM REFS ───────────────────────────────────────────
         const productGrid = document.getElementById("product-grid");
-        const loadMoreBtn = document.getElementById("load-more-btn");
         const cartPanel = document.getElementById("cart-panel");
         const wishlistPanel = document.getElementById("wishlist-panel");
         const panelOverlay = document.getElementById("panel-overlay");
@@ -1917,9 +1908,7 @@
         const cartCount = document.getElementById("cart-count");
         const wishCount = document.getElementById("wish-count");
         const cartItemsEl = document.getElementById("cart-items-container");
-        const wishlistItemsEl = document.getElementById(
-          "wishlist-items-container",
-        );
+        const wishlistItemsEl = document.getElementById("wishlist-items-container");
         const cartSubtotal = document.getElementById("cart-subtotal");
         const checkoutBtn = document.getElementById("checkout-btn");
         const addAllBtn = document.getElementById("add-all-to-cart");
@@ -1947,16 +1936,12 @@
         const mobileNav = document.getElementById("mobile-nav");
         const mobileNavClose = document.getElementById("mobile-nav-close");
         const searchInput = document.getElementById("search-input");
-        const searchInputMobile = document.getElementById(
-          "search-input-mobile",
-        );
+        const searchInputMobile = document.getElementById("search-input-mobile");
         const siteHeader = document.getElementById("site-header");
 
         // ── THEME ──────────────────────────────────────────────
         const savedTheme = localStorage.getItem("theme");
-        const prefersDark = window.matchMedia(
-          "(prefers-color-scheme: dark)",
-        ).matches;
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
         if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
           document.documentElement.classList.add("dark");
           sunIcon.classList.remove("hidden");
@@ -2006,10 +1991,6 @@
           wishCount.textContent = wishlist.length;
         }
 
-        function resetVisibleProducts() {
-          visibleCount = PRODUCTS_PER_LOAD;
-        }
-
         // ── RENDER PRODUCTS ───────────────────────────────────
         function renderProducts() {
           const q = currentFilter.toLowerCase();
@@ -2024,10 +2005,9 @@
           });
           if (!filtered.length) {
             productGrid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:60px 0; color:#8B8475; font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:300;">No products found</div>`;
-            if (loadMoreBtn) loadMoreBtn.style.display = "none";
             return;
           }
-          const visibleProducts = filtered.slice(0, visibleCount);
+          const visibleProducts = filtered;
 
           productGrid.innerHTML = visibleProducts
             .map((p) => {
@@ -2098,10 +2078,6 @@
             });
           });
 
-          if (loadMoreBtn) {
-            loadMoreBtn.style.display =
-              visibleCount < filtered.length ? "inline-flex" : "none";
-          }
         }
 
         // ── CART ──────────────────────────────────────────────
@@ -2390,7 +2366,6 @@
               .forEach((t) => t.classList.remove("active"));
             tab.classList.add("active");
             currentCategory = tab.dataset.cat;
-            resetVisibleProducts();
             renderProducts();
           });
         });
@@ -2404,17 +2379,9 @@
               searchInputMobile.value = input.value;
             if (input === searchInputMobile && searchInput)
               searchInput.value = input.value;
-            resetVisibleProducts();
             renderProducts();
           });
         });
-
-        if (loadMoreBtn) {
-          loadMoreBtn.addEventListener("click", () => {
-            visibleCount += PRODUCTS_PER_LOAD;
-            renderProducts();
-          });
-        }
 
         // ── MOBILE NAV ────────────────────────────────────────
         mobileMenuBtn.addEventListener("click", () => {
@@ -2484,9 +2451,28 @@
           100,
         );
 
-        // ── INIT ──────────────────────────────────────────────
+        // ── INIT — render hardcoded products immediately ───────
         renderProducts();
         updateCounts();
+
+        // ── FETCH SHEET PRODUCTS IN BACKGROUND ────────────────
+        // New products you add via admin.html will appear here automatically.
+        if (APPS_SCRIPT_URL) {
+          fetch(APPS_SCRIPT_URL)
+            .then((r) => r.json())
+            .then((data) => {
+              if (data.ok && data.products && data.products.length) {
+                // Merge: keep hardcoded first, append sheet products after
+                products = [...hardcodedProducts, ...data.products];
+                renderProducts();
+              }
+            })
+            .catch((err) =>
+              console.warn("Could not load sheet products:", err),
+            );
+        }
+        // ── END APPS SCRIPT INTEGRATION ────────────────────────
+
       });
     </script>
   </body>
