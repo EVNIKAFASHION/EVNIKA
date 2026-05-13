@@ -875,6 +875,22 @@
         width: 100%;
         height: 100%;
       }
+      /* Keep About text readable even when dark theme is active */
+      #about .section-title {
+        color: #1a1a1a;
+      }
+      #about .btn-outline {
+        color: #1a1a1a;
+        border-color: rgba(26, 26, 26, 0.35);
+      }
+      .dark #about .section-title {
+        color: #1a1a1a;
+      }
+      .dark #about .btn-outline {
+        color: #1a1a1a;
+        border-color: rgba(26, 26, 26, 0.35);
+        background: transparent;
+      }
 
       /* Newsletter */
       .newsletter-section {
@@ -911,6 +927,39 @@
       }
       .newsletter-input:focus {
         border-bottom-color: var(--accent);
+      }
+      /* Newsletter text readability on light background */
+      #contact h2 {
+        color: #1a1a1a !important;
+      }
+      #contact p {
+        color: #6b6560;
+      }
+      #contact .newsletter-input {
+        color: #1a1a1a;
+        border-bottom-color: rgba(26, 26, 26, 0.35);
+      }
+      #contact .newsletter-input::placeholder {
+        color: rgba(26, 26, 26, 0.45);
+      }
+      #contact a {
+        color: #b6975a;
+      }
+      .dark #contact h2 {
+        color: #1a1a1a !important;
+      }
+      .dark #contact p {
+        color: #6b6560;
+      }
+      .dark #contact .newsletter-input {
+        color: #1a1a1a;
+        border-bottom-color: rgba(26, 26, 26, 0.35);
+      }
+      .dark #contact .newsletter-input::placeholder {
+        color: rgba(26, 26, 26, 0.45);
+      }
+      .dark #contact a {
+        color: #b6975a;
       }
 
       /* Footer */
@@ -1911,8 +1960,10 @@
         // ══════════════════════════════════════════════════════════
         //  APPS SCRIPT INTEGRATION
         //  ▼▼▼ Paste your Apps Script Web App URL between the quotes ▼▼▼
-        const APPS_SCRIPT_URL_FALLBACK = "https://script.google.com/macros/s/AKfycbyq3qvvpkd_3NNDq8fP9RyCac273o7KYz7DcLoF4UnU46lt0q39W4DA9Dp0yG9G5YNJ/exec";
+        const APPS_SCRIPT_URL_FALLBACK = "https://script.google.com/macros/s/AKfycbxAQsNmADPmqZk-VkzSRIG6jj99UbJZEUQ7qLB8SbEDLURiYXcDVlE2_pP0rMQiLVUJ/exec";
         const APPS_SCRIPT_URL = localStorage.getItem("evnika_apps_script_url") || APPS_SCRIPT_URL_FALLBACK;
+        const PRODUCTS_CACHE_KEY = "evnika_sheet_products_cache_v1";
+        const PRODUCTS_CACHE_TTL_MS = 5 * 60 * 1000;
         // ══════════════════════════════════════════════════════════
 
         // ── HARDCODED PRODUCTS (your original 11 — do not remove) ──
@@ -2097,6 +2148,71 @@
         let viewerSwipeStartY = 0;
         let viewerMoved = false;
 
+        function readSheetProductsCache() {
+          try {
+            const raw = localStorage.getItem(PRODUCTS_CACHE_KEY);
+            if (!raw) return null;
+            const parsed = JSON.parse(raw);
+            if (!parsed || !Array.isArray(parsed.products) || !parsed.ts) return null;
+            if (Date.now() - parsed.ts > PRODUCTS_CACHE_TTL_MS) return null;
+            return parsed.products;
+          } catch (_) {
+            return null;
+          }
+        }
+
+        function writeSheetProductsCache(productsFromSheet) {
+          try {
+            localStorage.setItem(
+              PRODUCTS_CACHE_KEY,
+              JSON.stringify({ ts: Date.now(), products: productsFromSheet }),
+            );
+          } catch (_) {}
+        }
+
+        function fetchSheetProductsWithTimeout(url, timeoutMs = 8000) {
+          return Promise.race([
+            fetch(url).then((r) => r.json()),
+            new Promise((_, reject) =>
+              setTimeout(() => reject(new Error("Sheet fetch timeout")), timeoutMs),
+            ),
+          ]);
+        }
+
+        function ensureMobileBackStop() {
+          try {
+            const key = "evnika_backstop_added_v1";
+            if (sessionStorage.getItem(key) === "1") return;
+            history.pushState({ backStop: true }, "");
+            sessionStorage.setItem(key, "1");
+          } catch (_) {}
+        }
+
+        function closeOverlaysWithoutHistory() {
+          if (zoomOverlay.classList.contains("open")) {
+            closeZoomViewer();
+            return true;
+          }
+          if (modalOverlay.classList.contains("open")) {
+            modalOverlay.classList.remove("open");
+            document.body.classList.remove("no-scroll");
+            return true;
+          }
+          if (cartPanel.classList.contains("open")) {
+            cartPanel.classList.remove("open");
+            panelOverlay.classList.remove("open");
+            document.body.classList.remove("no-scroll");
+            return true;
+          }
+          if (wishlistPanel.classList.contains("open")) {
+            wishlistPanel.classList.remove("open");
+            panelOverlay.classList.remove("open");
+            document.body.classList.remove("no-scroll");
+            return true;
+          }
+          return false;
+        }
+
         function applyZoomTransform() {
           zoomImage.style.transform = `translate(${zoomPanX}px, ${zoomPanY}px) scale(${zoomScale})`;
         }
@@ -2173,6 +2289,29 @@
           wishCount.textContent = wishlist.length;
         }
 
+        function getPrimaryImage(p) {
+          if (!p || !Array.isArray(p.images)) return "";
+          const first = p.images.map((x) => String(x || "").trim()).find(Boolean) || "";
+          return normalizeImageUrl(first);
+        }
+
+        function normalizeImageUrl(url) {
+          const raw = String(url || "").trim();
+          if (!raw) return "";
+
+          // Handle common Google Drive sharing URL formats and convert to direct render URL.
+          // Supports:
+          // - https://drive.google.com/file/d/<ID>/view
+          // - https://drive.google.com/open?id=<ID>
+          // - https://drive.google.com/uc?export=view&id=<ID>
+          const fileMatch = raw.match(/drive\.google\.com\/file\/d\/([^/]+)/i);
+          const openMatch = raw.match(/[?&]id=([^&]+)/i);
+          const directId = fileMatch ? fileMatch[1] : (openMatch ? openMatch[1] : "");
+          if (directId) return `https://drive.google.com/thumbnail?id=${directId}&sz=w1600`;
+
+          return raw;
+        }
+
         // ── RENDER PRODUCTS ───────────────────────────────────
         function renderProducts() {
           const q = currentFilter.toLowerCase();
@@ -2198,10 +2337,11 @@
                   ? Math.round((1 - p.price / p.originalPrice) * 100)
                   : 0;
               const isWished = wishlist.includes(p.id);
+              const primaryImage = getPrimaryImage(p);
               return `
         <div class="product-card" data-fade>
           <div class="card-img-wrap">
-            <img class="card-img" src="${p.images[0]}" alt="${p.name}" loading="lazy" />
+            <img class="card-img" src="${primaryImage}" alt="${p.name}" loading="lazy" data-id="${p.id}" data-img-idx="0" />
           </div>
           ${off > 0 ? `<div class="card-badge">${off}% Off</div>` : ""}
           <button class="card-heart ${isWished ? "active" : ""}" data-wish="${p.id}" aria-label="Wishlist">
@@ -2260,6 +2400,23 @@
             });
           });
 
+          // If first image fails, try the next image from the same product.
+          productGrid.querySelectorAll(".card-img").forEach((img) => {
+            img.addEventListener("error", () => {
+              const id = Number(img.dataset.id);
+              const product = products.find((x) => Number(x.id) === id);
+              if (!product || !Array.isArray(product.images)) return;
+              const start = Number(img.dataset.imgIdx || "0") + 1;
+              for (let i = start; i < product.images.length; i++) {
+                const candidate = normalizeImageUrl(String(product.images[i] || "").trim());
+                if (!candidate) continue;
+                img.dataset.imgIdx = String(i);
+                img.src = candidate;
+                return;
+              }
+            });
+          });
+
         }
 
         // ── CART ──────────────────────────────────────────────
@@ -2275,7 +2432,7 @@
               brand: p.brand,
               price: p.price,
               originalPrice: p.originalPrice,
-              image: p.images[0],
+              image: getPrimaryImage(p),
               quantity: qty,
             });
           saveState();
@@ -2369,7 +2526,7 @@
             .map(
               (p) => `
         <div class="cart-item">
-          <img class="cart-item-img" src="${p.images[0]}" alt="${p.name}" />
+          <img class="cart-item-img" src="${getPrimaryImage(p)}" alt="${p.name}" />
           <div class="cart-item-info">
             <p class="cart-item-brand">${p.brand}</p>
             <p class="cart-item-name">${p.name}</p>
@@ -2454,7 +2611,13 @@
           const p = products.find((x) => x.id === id);
           if (!p) return;
           modalProductId = id;
-          modalImages = p.images;
+          modalImages = (Array.isArray(p.images) ? p.images : [])
+            .map((src) => normalizeImageUrl(src))
+            .filter(Boolean);
+          if (!modalImages.length) {
+            const fallback = getPrimaryImage(p);
+            modalImages = fallback ? [fallback] : [];
+          }
           modalIndex = 0;
           modalQty = 1;
           modalQtyVal.textContent = "1";
@@ -2480,6 +2643,10 @@
         }
 
         function setModalImg(i) {
+          if (!modalImages.length) {
+            modalMainImg.src = "";
+            return;
+          }
           modalIndex = (i + modalImages.length) % modalImages.length;
           modalMainImg.src = modalImages[modalIndex];
           modalThumbs
@@ -2687,19 +2854,8 @@
           .forEach((el) => observer.observe(el));
 
         // ── BACK BUTTON (mobile) ──────────────────────────────
-        window.addEventListener("popstate", (e) => {
-          if (modalOverlay.classList.contains("open")) {
-            modalOverlay.classList.remove("open");
-            document.body.classList.remove("no-scroll");
-          } else if (cartPanel.classList.contains("open")) {
-            cartPanel.classList.remove("open");
-            panelOverlay.classList.remove("open");
-            document.body.classList.remove("no-scroll");
-          } else if (wishlistPanel.classList.contains("open")) {
-            wishlistPanel.classList.remove("open");
-            panelOverlay.classList.remove("open");
-            document.body.classList.remove("no-scroll");
-          }
+        window.addEventListener("popstate", () => {
+          closeOverlaysWithoutHistory();
         });
 
         // ── KEYBOARD ──────────────────────────────────────────
@@ -2723,18 +2879,25 @@
         );
 
         // ── INIT — render hardcoded products immediately ───────
+        ensureMobileBackStop();
         renderProducts();
         updateCounts();
 
-        // ── FETCH SHEET PRODUCTS IN BACKGROUND ────────────────
+        // ── LOAD SHEET PRODUCTS (cache first, then background refresh) ──
+        const cachedSheetProducts = readSheetProductsCache();
+        if (cachedSheetProducts && cachedSheetProducts.length) {
+          products = [...hardcodedProducts, ...cachedSheetProducts];
+          renderProducts();
+        }
+
         // New products you add via admin.html will appear here automatically.
         if (APPS_SCRIPT_URL) {
-          fetch(APPS_SCRIPT_URL)
-            .then((r) => r.json())
+          fetchSheetProductsWithTimeout(APPS_SCRIPT_URL)
             .then((data) => {
               if (data.ok && data.products && data.products.length) {
                 // Merge: keep hardcoded first, append sheet products after
                 products = [...hardcodedProducts, ...data.products];
+                writeSheetProductsCache(data.products);
                 renderProducts();
               }
             })
